@@ -1,0 +1,396 @@
+(defwindow bar0
+  :monitor 0
+  :geometry (geometry
+    :x "0%"
+    :y "0.6%"
+    :width "99.8%"
+    :height "3%"
+    :anchor "top center"
+  )
+  :stacking "overlay"
+  :windowtype "dock"
+  :wm-ignore false
+  :exclusive true
+  (stuff)
+)
+
+(defwindow bar1
+  :monitor 0
+  :geometry (geometry
+    :x "0%"
+    :y "0.6%"
+    :width "99.8%"
+    :height "3%"
+    :anchor "top center"
+  )
+  :stacking "fg"
+  :windowtype "dock"
+  :wm-ignore false
+  :exclusive true
+  (stuff)
+)
+
+(defwidget stuff []
+  (centerbox
+    :class "bar"
+    :orientation "h"
+    (left)
+    (middle)
+    (right)
+  )
+)
+
+(defwidget left []
+  (box
+    :spacing 10
+    :orientation "horizontal"
+    :halign "start"
+    :space-evenly false
+    :valign "center"
+    (workspaces)
+    (pc_stats)
+    (weather)
+  )
+)
+
+(defvar show_calendar false)
+
+(defwidget middle []
+  (box
+    :orientation "horizontal"
+    :halign "center"
+    :valign "center"
+    (button
+      :class "time"
+      :onmiddleclick "~/.config/eww/scripts/update_calendar.sh"
+      "${time.week}, ${time.month} ${time.day} | ${time.hour} : ${time.min} : ${time.second}"
+    )
+  )
+)
+
+(defwidget right []
+  (box
+    :halign "end"
+    :spacing 10
+    (quick_launchers)
+    (box
+      :orientation "horizontal"
+      :halign "end"
+      :valign "center"
+      :spacing 5
+      :class "right"
+      :space-evenly false
+      (systray :icon-size 18 :pack-direction "right")
+      (battery
+        :status {EWW_BATTERY.BAT0.status}
+        :battery {EWW_BATTERY.BAT0.capacity}
+        :charging "󰠠"
+        :one " "
+        :two " "
+        :three " "
+        :four " "
+        :five " "
+        :six " "
+        :seven " "
+      )
+	  (microphone_status)
+      (pavu)
+      (volume_slider)
+      (eventbox
+        :class "btns-box"
+        :onrightclick "~/.config/eww/scripts/launch_more_power_options.sh"
+        " "
+      )
+    )
+  )
+)
+
+(defpoll time
+  :interval "0.1s" `date +'{"hour":"%H","min":"%M","second":"%S","week":"%a","month":"%b","day":"%d"}'`
+)
+
+(defpoll net
+  :interval "60s"
+  `nmcli -terse -fields SIGNAL,ACTIVE device wifi | awk --field-separator ':' '{if($2=="yes")print$1}'`
+)
+
+(defvar hover_battery false)
+
+(defwidget battery [battery status one two three four five six seven charging]
+  (box
+    :class "bat-box"
+    :vexpand true
+    :valign "center"
+	:tooltip `${EWW_BATTERY.BAT0.capacity}%`
+    ;; (reveal_battery :transition "slideleft")
+    ;; (eventbox
+    ;;   :onhover "eww update hover_battery=true"
+    ;;   :onhoverlost "eww update hover_battery=false"
+      (box
+        :vexpand true
+        :valign "center"
+        (label :text {
+          status == "Charging" ? charging :
+          battery < 15 ? seven :
+          battery < 30 ? six :
+          battery < 45 ? five :
+          battery < 60 ? four :
+          battery < 75 ? three :
+          battery < 89 ? two : one
+        })
+      )
+    ;; )
+  )
+)
+
+;; (defwidget reveal_battery [transition]
+;;   (revealer
+;;     :visible "${hover_battery == true ? true : false}"
+;;     :transition transition
+;;     :reveal "${hover_battery == true ? true : false}"
+;;     :duration 500
+;;     (label :class "battery-reveal" :text `${EWW_BATTERY.BAT0.capacity}%`)
+;;   )
+;; )
+
+(defvar show_more_power_options false)
+
+(defwidget network [strength offline excellent good okay slow]
+  (box
+    :class "net-box"
+    :vexpand true
+    :halign "end"
+    (label :text {
+      strength == "" ? offline :
+      strength < 20 ? slow :
+      strength < 40 ? okay :
+      strength < 60 ? good : excellent
+    })
+  )
+)
+
+(deflisten mic_state :initial "True" "~/.config/eww/scripts/get_microphone.sh")
+(defwidget microphone_status []
+	(box			
+		:class "mic-state"
+		(eventbox
+			:onclick "~/.config/eww/scripts/toggle_microphone.sh"
+			(label :text {
+				mic_state == "True" ? "" : ""
+			})
+		)
+	)
+)
+
+(deflisten workspace_list :initial "[]" "~/.config/eww/scripts/get_workspaces.sh")
+(deflisten active_workspace :initial "99" "~/.config/eww/scripts/get_active_workspaces.sh")
+(defwidget workspaces []
+  (eventbox :onscroll "~/.config/eww/scripts/change_active_workspace.sh {} ${active_workspace}"
+    (box
+      :class "workspace-box"
+      :vexpand true
+      :halign "start"
+      (box
+        :orientation "h" ; Make sure the box is oriented vertically
+        :vexpand true
+        (for workspace in workspace_list
+          (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :class "workspace-element-box"
+            :vexpand true
+            (label :vexpand true :hexpand true :class "${workspace.id == active_workspace ? 'active' : 'inactive'}" :text "${workspace.id == active_workspace ? workspace.id : workspace.id}")
+            ;(label :vexpand true :hexpand true :class "${workspace.id == active_workspace ? 'active' : 'inactive'}" :text "${workspace.id == active_workspace ? '󰮯' : '•'}")
+          )
+        )
+      )
+    )
+  )
+)
+
+(defwidget pavu []
+  (eventbox
+    :onhover "eww update show_volume=true"
+    :onhoverlost "eww update show_volume=false"
+    :onscroll "~/.config/eww/scripts/change_volume.sh {}"
+    (button
+      :onclick "pavucontrol &"
+      :vexpand false
+      :hexpand false
+      :halign "end"
+      :class "pavu"
+      (label :text " ")
+    )
+  )
+)
+
+(defwindow cal
+  :monitor 0
+  :geometry (geometry
+    :x "0%"
+    :y "4px"
+    :anchor "top center"
+  )
+  :stacking "overlay"
+  :windowtype "normal"
+  :exclusive false
+  (calendar
+    :class "calendar"
+  )
+)
+
+(defwindow more_power_options
+  :monitor 0
+  :geometry (geometry
+    :x "1%"
+    :y "3px"
+    :anchor "top right"
+  )
+  :stacking "overlay"
+  :windowtype "normal"
+  :exclusive false
+  (box
+    :class "btns-box-window"
+    :spacing 5
+    :orientation "v"
+    (button :class "logout-icon" :onclick "loginctl kill-session self" "󰍂")
+    (button :class "red" :onclick "poweroff" "󰐥")
+    (button :class "green" :onclick "reboot" "")
+  )
+)
+
+(deflisten volume :initial "0" "/home/fustigate/.config/eww/scripts/get_volume.sh")
+
+(defvar show_volume false)
+
+(defwidget volume_slider []
+  (box
+    :class "volume-box"
+    (revealer
+      ;:visible "${show_volume == true ? true : false}"
+      :visible true
+      :transition "slideright"
+      ;:reveal "${show_volume == true ? true : false}"
+      :reveal true
+      :duration 500
+      (scale
+        :value volume
+        :min -5.0
+        :max 150.0
+        :active true
+        :orientation "h"
+        :class "volume-slider"
+      )
+    )
+  )
+)
+
+(deflisten cpu :interval "5s" :initial "0" "~/.config/eww/scripts/get_cpu.sh cpu")
+(defwidget cpu_progress []
+  (box :class "overlay"
+    :vexpand true
+    :halign "left"
+    :tooltip "cpu"
+    (overlay
+      (circular-progress
+        :class "stat-background"
+        :value 100
+        :start-at 25
+        :clockwise true
+        :thickness "36"
+        " "
+      )
+      (circular-progress
+        :class "stat-progress"
+        :value cpu
+        :start-at 25
+        :clockwise true
+        :thickness "5"
+        (label :class "progress-text" :text "")
+      )
+    )
+  )
+)
+
+
+(defpoll ram :interval "5s" "~/.config/eww/scripts/get_memory.sh --used")
+(defwidget ram_progress []
+  (box :class "overlay"
+    :vexpand true
+    :halign "left"
+    :tooltip "ram"
+    (overlay
+      (circular-progress
+        :class "stat-background"
+        :value 100
+        :start-at 25
+        :clockwise true
+        :thickness "36"
+        " "
+      )
+      (circular-progress
+        :class "stat-progress"
+        :value ram
+        :start-at 25
+        :clockwise true
+        :thickness "5"
+        (label :class "progress-text" :text "")
+      )
+    )
+  )
+)
+
+(defwidget pc_stats []
+  (box
+    :class "pc-stats"
+    :space-evenly false
+    :vexpand true
+    :halign "center"
+    :spacing 8
+    (cpu_progress)
+    (ram_progress)
+  )
+)
+
+(deflisten weather :initial "null" "http_proxy=http://127.0.0.0:10810 https_proxy=http://127.0.0.1:10810 python /home/fustigate/.config/eww/scripts/get_weather.py")
+(deflisten weather_nanjing :initial "null" "http_proxy=http://127.0.0.0:10810 https_proxy=http://127.0.0.1:10810 python /home/fustigate/.config/eww/scripts/get_nanjing_weather.py")
+(defwidget weather []
+  (box :orientation "h" :space-evenly true :class "weather"
+    (label :class "weather-error" :text " " :visible {weather == "null" ? true : false})
+    (box
+      :tooltip "Hsinchu"
+      :visible {weather == "null" ? false : true}
+      (label :class "weather-icon" :text {weather.icon})
+      (label :class "weather-temp" :text {weather.temp})
+    )
+  )
+)
+
+(defwidget quick_launchers []
+  (box
+    :class "quick-launchers"
+    :valign "center"
+    :halign "end"
+    (eventbox
+      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /mnt/ianch-Secondary/Documents/Try_N4.pdf"
+      :class "red"
+      :tooltip "Try! N4"
+      (label :text " ")
+    )
+    (eventbox
+      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /mnt/ianch-Secondary/Japanese/VerbConjugations.pdf"
+      :class "blue"
+      :tooltip "Verb Conjugations"
+      (label :text " ")
+    )
+    (eventbox
+      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /mnt/ianch-Secondary/ebooks/list_of_formulae.pdf"
+      :class "white"
+      :tooltip "List of Formula"
+      (label :text " ")
+    )
+    (eventbox
+      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /home/fustigate/Desktop/timetable.pdf"
+      :class "red"
+      :tooltip "Timetable"
+      (label :text " ")
+    )
+  )
+)
