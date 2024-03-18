@@ -360,6 +360,12 @@
       (label :class "weather-icon" :text {weather.icon})
       (label :class "weather-temp" :text {weather.temp})
     )
+    (box
+      :tooltip "Nanjing"
+      :visible {weather == "null" ? false : true}
+      (label :class "weather-icon" :text {weather_nanjing.icon})
+      (label :class "weather-temp" :text {weather_nanjing.temp})
+    )
   )
 )
 
