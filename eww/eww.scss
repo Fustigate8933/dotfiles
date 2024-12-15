@@ -1,16 +1,16 @@
-$surface-darkgrey: rgba(32, 37, 43, 0.9);
+$surface-darkgrey: rgba(57, 57, 69, 0.8);
 $surface-fg: #949494;
 $surface-lightgrey: #3d464e;
 $surface-grey: #2b3238;
 $surface-red: #f87070;
 $surface-green: green;
-$fontsize: 1.15em;
+$fontsize: 1.17em;
 $color-white1: #bfbfbf;
 $color-white2: rgba(210,211,219, 0.5);
-$color-white3: #c6d8fc;
+$color-white3: #FCECBD;
 $orange: #ffc04c;
 $green: #52bf90;
-$blue: #6497b1;
+$blue: #AEFAFB;
 $br: 16px;
 $border-size: 1px;
 
@@ -32,16 +32,14 @@ $border-size: 1px;
   color: $color-white3;
   background-color: $surface-darkgrey;
   border-radius: $br;
-  padding: 0 5px 0 5px;
+  padding: 10px;
   border: solid $border-size $color-white2;
   .active {
     //color: $surface-red;
-    margin: 10px;
     border-bottom: 2px solid $color-white3;
   }
   .inactive {
     color: white;
-    margin: 10px;
     border-bottom: 0px solid gray;
     &:hover{
       color: $surface-red;
@@ -55,9 +53,13 @@ $border-size: 1px;
   font-size: $fontsize;
   background-color: $surface-darkgrey;
   border-radius: $br;
-  padding: 10px 10px 10px 10px;
+  padding: 11px;
   // color: $green;
   margin-left: 5px;
+}
+
+.end {
+  font-size: $fontsize;
 }
 
 .weather {
@@ -66,15 +68,23 @@ $border-size: 1px;
   background-color: $surface-darkgrey;
   border-radius: $br;
   padding: 10px 9px 10px 6px;
-  color: #fff487;
+  color: #FEF9C5;
+}
+
+.window-title {
+  border: solid $border-size $color-white2;
+  font-size: $fontsize;
+  background-color: $surface-darkgrey;
+  border-radius: $br;
+  padding: 11px;
+  color: #EEEEEE;
 }
 
 .quick-launchers {
-  font-size: 1.2em;
+  font-size: $fontsize;
   background-color: $surface-darkgrey;
   border-radius: $br;
   padding: 10px 4px 10px 10px;
-  min-height: 24px;
   border: solid $border-size $color-white2;
 }
 
@@ -82,14 +92,14 @@ $border-size: 1px;
   font-size: $fontsize;
   background-color: $surface-darkgrey;
   border-radius: $br;
-  padding: 10px;
+  padding: 8px;
   border: solid $border-size $color-white2;
 }
 
 .pavu {
-  font-size: $fontsize;
+  font-size: 1.12em;
   padding: 0;
-  margin: 0;
+  margin-right: -5;
 }
 
 .net-box {
@@ -158,17 +168,17 @@ $border-size: 1px;
 .volume-slider trough {
   background-color: rgba(255, 255, 255, 0.85);
   border-radius: 10px;
-  min-height: 0.55em;
+  min-height: 0.3em;
 }
 
 .volume-slider trough highlight {
-  background-color: #ffaa7f;
+  background-color: #7b99ca;
   border-radius: 10px;
-  min-height: 0.55em;
+  min-height: 0.48em;
 }
 
 .volume-box {
-  min-width: 80px;
+  min-width: 70px;
 }
 
 .stat-progress {
@@ -198,6 +208,24 @@ $border-size: 1px;
   min-height: 28px;
 }
 
+decoration {
+  background: rgba($surface-darkgrey, 0.85);
+  border-radius: 10px;
+}
+
+widget {
+  image {
+    margin: 0 1px 0 1px;
+  }
+  padding: 2px;
+  window {
+    margin: 2px 2px 2px 2px;
+    *:hover {
+      background-color: $surface-lightgrey;
+    }
+  }
+}
+
 menuitem {
   margin: 0 1px 0 1px;
   menu {
@@ -213,7 +241,7 @@ menuitem {
 
 .mic-state{
 	font-size: $fontsize;
-	padding: 0 3px 0 3px;
+	padding: 0 2px 0 3px;
 }
 
 tooltip {

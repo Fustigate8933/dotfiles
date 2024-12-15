@@ -1,25 +1,24 @@
-(defwindow bar0
-  :monitor 0
-  :geometry (geometry
-    :x "0%"
-    :y "0.6%"
-    :width "99.8%"
-    :height "3%"
-    :anchor "top center"
-  )
-  :stacking "overlay"
-  :windowtype "dock"
-  :wm-ignore false
-  :exclusive true
-  (stuff)
-)
-
+;; (defwindow bar0
+;;   :monitor 0
+;;   :geometry (geometry
+;;     :x "0%"
+;;     :y "7.68px" ; 0.6%
+;;     :width "2044px" ;99.8%
+;;     :height "3%"
+;;     :anchor "top center"
+;;   ) :stacking "overlay"
+;;   :windowtype "dock"
+;;   :wm-ignore false
+;;   :exclusive true
+;;   (stuff)
+;; )
+;;
 (defwindow bar1
   :monitor 0
   :geometry (geometry
     :x "0%"
-    :y "0.6%"
-    :width "99.8%"
+    :y "7.68px"
+    :width "2044px"
     :height "3%"
     :anchor "top center"
   )
@@ -29,6 +28,22 @@
   :exclusive true
   (stuff)
 )
+
+;; (defwindow bar3
+;;   :monitor 0
+;;   :geometry (geometry
+;;     :x "0%"
+;;     :y "7.68px"
+;;     :width "1920px"
+;;     :height "3%"
+;;     :anchor "top center"
+;;   )
+;;   :stacking "fg"
+;;   :windowtype "dock"
+;;   :wm-ignore false
+;;   :exclusive true
+;;   (stuff)
+;; )
 
 (defwidget stuff []
   (centerbox
@@ -42,7 +57,7 @@
 
 (defwidget left []
   (box
-    :spacing 10
+    :spacing 7
     :orientation "horizontal"
     :halign "start"
     :space-evenly false
@@ -50,6 +65,7 @@
     (workspaces)
     (pc_stats)
     (weather)
+	(window_title)
   )
 )
 
@@ -63,7 +79,7 @@
     (button
       :class "time"
       :onmiddleclick "~/.config/eww/scripts/update_calendar.sh"
-      "${time.week}, ${time.month} ${time.day} | ${time.hour} : ${time.min} : ${time.second}"
+      "${time.week}, ${time.month} ${time.day}, ${time.hour} : ${time.min} : ${time.second}"
     )
   )
 )
@@ -71,16 +87,16 @@
 (defwidget right []
   (box
     :halign "end"
-    :spacing 10
+    :spacing 7
     (quick_launchers)
     (box
       :orientation "horizontal"
       :halign "end"
       :valign "center"
-      :spacing 5
+      :spacing 6
       :class "right"
       :space-evenly false
-      (systray :icon-size 18 :pack-direction "right")
+      (systray :icon-size 18 :spacing 2 :pack-direction "right")
       (battery
         :status {EWW_BATTERY.BAT0.status}
         :battery {EWW_BATTERY.BAT0.capacity}
@@ -106,12 +122,12 @@
 )
 
 (defpoll time
-  :interval "0.1s" `date +'{"hour":"%H","min":"%M","second":"%S","week":"%a","month":"%b","day":"%d"}'`
+  :interval "0.5s" `date +'{"hour":"%H","min":"%M","second":"%S","week":"%a","month":"%b","day":"%d"}'`
 )
 
 (defpoll net
   :interval "60s"
-  `nmcli -terse -fields SIGNAL,ACTIVE device wifi | awk --field-separator ':' '{if($2=="yes")print$1}'`
+  `nmcli -terse -fields SIGNAL,ACTIVE device wifi | awk --field-separator ':' '{if($2=="yes")print$1}';~/.wechat_monitor_hyprland.sh`
 )
 
 (defvar hover_battery false)
@@ -131,12 +147,12 @@
         :valign "center"
         (label :text {
           status == "Charging" ? charging :
-          battery < 15 ? seven :
-          battery < 30 ? six :
-          battery < 45 ? five :
-          battery < 60 ? four :
-          battery < 75 ? three :
-          battery < 89 ? two : one
+          battery < 14 ? seven :
+          battery < 28 ? six :
+          battery < 42 ? five :
+          battery < 56 ? four :
+          battery < 70 ? three :
+          battery < 84 ? two : one
         })
       )
     ;; )
@@ -176,7 +192,7 @@
 		(eventbox
 			:onclick "~/.config/eww/scripts/toggle_microphone.sh"
 			(label :text {
-				mic_state == "True" ? "" : ""
+				mic_state == "True" ? "󰍬" : "󰍭"
 			})
 		)
 	)
@@ -193,6 +209,7 @@
       (box
         :orientation "h" ; Make sure the box is oriented vertically
         :vexpand true
+		:spacing 9
         (for workspace in workspace_list
           (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :class "workspace-element-box"
             :vexpand true
@@ -256,7 +273,12 @@
   )
 )
 
-(deflisten volume :initial "0" "/home/fustigate/.config/eww/scripts/get_volume.sh")
+(deflisten win_title_text :initial "" "./scripts/get_current_window_title.sh")
+(defwidget window_title []
+  (literal :content '${strlength(win_title_text) != 0 ? '(box :class "window-title" (label :text {win_title_text}))' : ''}')
+)
+
+(deflisten volume :initial "0" "./scripts/get_volume.sh")
 
 (defvar show_volume false)
 
@@ -282,7 +304,7 @@
   )
 )
 
-(deflisten cpu :interval "5s" :initial "0" "~/.config/eww/scripts/get_cpu.sh cpu")
+(deflisten cpu :interval "5s" :initial "50" "~/.config/eww/scripts/get_cpu.sh")
 (defwidget cpu_progress []
   (box :class "overlay"
     :vexpand true
@@ -349,8 +371,9 @@
   )
 )
 
-(deflisten weather :initial "null" "http_proxy=http://127.0.0.0:10810 https_proxy=http://127.0.0.1:10810 python /home/fustigate/.config/eww/scripts/get_weather.py")
-(deflisten weather_nanjing :initial "null" "http_proxy=http://127.0.0.0:10810 https_proxy=http://127.0.0.1:10810 python /home/fustigate/.config/eww/scripts/get_nanjing_weather.py")
+(deflisten weather :initial "null" "python ./scripts/get_weather.py")
+(deflisten weather_nanjing :initial "null" "python ./scripts/get_nanjing_weather.py")
+(deflisten weather_irvine :initial "null" "python ./scripts/get_waterloo_weather.py")
 (defwidget weather []
   (box :orientation "h" :space-evenly true :class "weather"
     (label :class "weather-error" :text " " :visible {weather == "null" ? true : false})
@@ -360,11 +383,17 @@
       (label :class "weather-icon" :text {weather.icon})
       (label :class "weather-temp" :text {weather.temp})
     )
+    ;; (box
+    ;;   :tooltip "Nanjing"
+    ;;   :visible {weather == "null" ? false : true}
+    ;;   (label :class "weather-icon" :text {weather_nanjing.icon})
+    ;;   (label :class "weather-temp" :text {weather_nanjing.temp})
+    ;; )
     (box
-      :tooltip "Nanjing"
+      :tooltip "Waterloo, CA"
       :visible {weather == "null" ? false : true}
-      (label :class "weather-icon" :text {weather_nanjing.icon})
-      (label :class "weather-temp" :text {weather_nanjing.temp})
+      (label :class "weather-icon" :text {weather_irvine.icon})
+      (label :class "weather-temp" :text {weather_irvine.temp})
     )
   )
 )
@@ -375,28 +404,40 @@
     :valign "center"
     :halign "end"
     (eventbox
-      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /mnt/ianch-Secondary/Documents/Try_N4.pdf"
+      :onclick "./scripts/sony_headphones_client_launch.sh"
+      :class "blue"
+      :tooltip "Sony headphones client"
+      (label :text "󰋋 ")
+    )
+    (eventbox
+      :onclick "./scripts/launch_folder.sh '//mnt//ianch-Secondary//Japanese Lyric Translations//'"
+      :class "white"
+      :tooltip "Japanese Lyric Translations Directory"
+      (label :text "󰉋 ")
+    )
+    (eventbox
+      :onclick "./scripts/launch_pdf.sh /mnt/ianch-Secondary/Documents/Try_N4.pdf"
       :class "red"
       :tooltip "Try! N4"
       (label :text " ")
     )
     (eventbox
-      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /mnt/ianch-Secondary/Japanese/VerbConjugations.pdf"
+      :onclick "./scripts/launch_pdf.sh /mnt/ianch-Secondary/Japanese/VerbConjugations.pdf"
       :class "blue"
       :tooltip "Verb Conjugations"
       (label :text " ")
     )
     (eventbox
-      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /mnt/ianch-Secondary/ebooks/list_of_formulae.pdf"
+      :onclick "./scripts/launch_color_picker.sh"
       :class "white"
-      :tooltip "List of Formula"
-      (label :text " ")
+      :tooltip "Color Picker"
+      (label :text " ")
     )
     (eventbox
-      :onclick "/home/fustigate/.config/eww/scripts/launch_pdf.sh /home/fustigate/Desktop/timetable.pdf"
-      :class "red"
-      :tooltip "Timetable"
-      (label :text " ")
+      :onclick "./scripts/launch_calc.sh"
+      :class "white"
+      :tooltip "Calculator"
+      (label :text " ")
     )
   )
 )
