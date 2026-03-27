@@ -4,7 +4,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 export EDITOR="nvim"
-export OPENAI_API_KEY="piggy"
 export fpath=($HOME/.zsh-completions $fpath)
 export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
 # Set name of the theme to load --- if set to "random", it will
@@ -12,6 +11,8 @@ export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
+
+source ~/.secrets
 
 source $ZSH/oh-my-zsh.sh
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
