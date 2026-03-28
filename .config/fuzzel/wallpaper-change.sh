@@ -1,67 +1,9 @@
 #!/bin/bash
 #
-selected=$(echo "weathering_with_you-3.png
-ado-rage.jpeg
-power.jpeg
-metro.gif
-dungeon-meshi.jpg
-lian.jpg
-lian_no_watermark.png
-mario.gif
-1134715.jpg
-gojo.png
-jjk.png
-kusuriya1.png
-kusuriya2.jpeg
-frieren_camping.gif
-frierenkid.jpeg
-frieren.jpeg
-frieren_himmel1.jpg
-frieren_himmel_stars.jpeg
-frieren_warm.jpg
-clone.png
-frieren_sleeping.jpg
-frieren_suitcase.jpeg
-frieren_tree_clipped.jpg
-frieren_meshi.png
-mushoku.jpg
-zaraki.jpg
-shibuya.jpg
-shocked.jpg
-orsted.jpg
-snowman.jpg
-mushokutensei.jpg
-pixelroom.gif
-torii.gif
-sylphy_sleep.jpg
-konbini.jpg
-osaka.jpg
-bluebox.png
-balcony.jpeg
-trainstation.gif
-rainystreet.gif
-snowtrain.jpg
-konbini_live.gif
-osaka_tower.jpg
-samurai.jpg
-roadtrip.jpeg
-reading.png
-yilangtrip.jpg
-uniformrain.jpg
-cozy_house.gif
-story.gif
-cherry.gif
-reading.gif
-violet.png
-kiminitodoke.jpeg
-shimonada.jpg
-bluffs.jpg
-pinnacle.png
-bluebox2.png
-grange.jpg
-frieren_fight.jpg
-frieren_writing.png
-fujiden.gif" | fuzzel --dmenu)
+WALLPAPER_DIR="/home/fustigate/Pictures"
+
+# Find all image files (jpg, jpeg, png, gif) sorted by modification time (newest first)
+selected=$(cd "$WALLPAPER_DIR" && find . -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -printf "%T@ %f\n" | sort -rn | cut -d' ' -f2- | fuzzel --dmenu)
 
 if [ -z "$selected" ]; then
     exit 0
