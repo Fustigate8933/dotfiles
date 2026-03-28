@@ -98,7 +98,7 @@
       :spacing 6
       :class "right"
       :space-evenly false
-      (systray :icon-size 18 :spacing 2 :pack-direction "right")
+      (systray :icon-size 22 :spacing 2 :pack-direction "right")
 	  (asus_profile_btn)
       (battery
         :status {EWW_BATTERY.BAT0.status}
