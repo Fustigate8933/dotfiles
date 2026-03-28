@@ -223,9 +223,13 @@
         :vexpand true
 		:spacing 9
         (for workspace in workspace_list
-          (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}" :class "workspace-element-box"
+          (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
             :vexpand true
-            (label :vexpand true :hexpand true :class "${workspace.id == active_workspace ? 'active' : 'inactive'}" :text "${workspace.id == active_workspace ? workspace.id : workspace.id}")
+			(box
+			  :class "${workspace.id == active_workspace ? 'active' : 'inactive'}"
+			  :vexpand true
+			  (label :vexpand true :hexpand true :class "" :text "${workspace.id == active_workspace ? workspace.id : workspace.id}")
+			)
           )
         )
       )

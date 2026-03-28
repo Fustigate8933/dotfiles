@@ -36,16 +36,10 @@ $char-space: 1px;
   padding: 10px;
   border: solid $border-size $color-white2;
   .active {
-    //color: $surface-red;
     border-bottom: 2px solid $color-white3;
   }
   .inactive {
     color: white;
-    border-bottom: 0px solid gray;
-    &:hover{
-      color: $surface-red;
-      border-bottom: 0px solid white;
-    }
   }
 }
 
