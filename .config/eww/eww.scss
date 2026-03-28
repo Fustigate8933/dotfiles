@@ -39,7 +39,9 @@ $char-space: 1px;
     border-bottom: 2px solid $color-white3;
   }
   .inactive {
+    padding-top: 2px;
     color: white;
+    border-bottom: 2px solid transparent;
   }
 }
 
