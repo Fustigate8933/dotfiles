@@ -89,7 +89,8 @@
     :halign "end"
     :spacing 7
 	:space-evenly false
-	(cava)
+	;; (cava)
+	(stopwatch)
     (quick_launchers)
     (box
       :orientation "horizontal"
@@ -415,6 +416,30 @@
 		:valign "center"
 		:halign "end"
 		(label :text cava)
+	)
+)
+
+(defvar stopwatch_running false)
+(defvar stopwatch_time "00:00:00")
+
+(defwidget stopwatch []
+	(box
+		:class "stopwatch"
+		:valign "center"
+		:halign "end"
+		:spacing 6
+		:space-evenly false
+		(label :text stopwatch_time)
+		(button
+			:class "stopwatch-btn"
+			:onclick "~/.config/eww/scripts/stopwatch.sh toggle"
+			{stopwatch_running ? "⏸" : "▶"}
+		)
+		(button
+			:class "stopwatch-btn-reset"
+			:onclick "~/.config/eww/scripts/stopwatch.sh reset"
+			"󰑓"
+		)
 	)
 )
 

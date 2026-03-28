@@ -84,11 +84,39 @@ $char-space: 1px;
   border: solid $border-size $color-white2;
 }
 
+.stopwatch {
+  font-size: $fontsize;
+  background-color: $surface-darkgrey;
+  border-radius: $br;
+  padding: 10px 10px 10px 10px;
+  border: solid $border-size $color-white2;
+}
+
+.stopwatch-btn {
+  font-size: 1.0em;
+  padding: 0;
+  margin: 0 1px;
+}
+
+.stopwatch-btn-reset {
+  font-size: 0.85em;
+  padding: 0;
+  margin: 0 1px;
+}
+
+.stopwatch-btn:hover {
+  color: $blue;
+}
+
+.stopwatch-btn-reset:hover {
+  color: $blue;
+}
+
 .quick-launchers {
   font-size: $fontsize;
   background-color: $surface-darkgrey;
   border-radius: $br;
-  padding: 10px 4px 10px 10px;
+  padding: 10px 10px 10px 10px;
   border: solid $border-size $color-white2;
 }
 
