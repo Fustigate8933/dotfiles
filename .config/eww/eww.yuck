@@ -275,7 +275,7 @@
 (defwindow more_power_options
   :monitor 0
   :geometry (geometry
-    :x "1%"
+    :x "0.6%"
     :y "3px"
     :anchor "top right"
   )
@@ -286,7 +286,9 @@
     :class "btns-box-window"
     :spacing 5
     :orientation "v"
-    (button :class "logout-icon" :onclick "loginctl kill-session self" "󰍂")
+	:hexpand true
+	
+    (button :class "" :onclick "poweroff" "󰍃")
     (button :class "red" :onclick "poweroff" "󰐥")
     (button :class "green" :onclick "reboot" "")
   )
@@ -312,7 +314,7 @@
       (scale
         :value volume
         :min -5.0
-        :max 150.0
+        :max 100.0
         :active true
         :orientation "h"
         :class "volume-slider"

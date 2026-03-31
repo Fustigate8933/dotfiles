@@ -5,6 +5,7 @@ $surface-grey: #2b3238;
 $surface-red: #f87070;
 $surface-green: green;
 $fontsize: 1.17em;
+$hamburger-fontsize: 1em;
 $color-white1: #bfbfbf;
 $color-white2: rgba(210,211,219, 0.5);
 $color-white3: #FCECBD;
@@ -147,7 +148,7 @@ $char-space: 1px;
 }
 
 .btns-box {
-  font-size: $fontsize;
+  font-size: $hamburger-fontsize;
   padding: 0;
   margin: 0;
 }
@@ -156,7 +157,8 @@ $char-space: 1px;
   font-size: $fontsize;
   margin: 0;
   background-color: $surface-lightgrey;
-  padding: 8px;
+  padding: 10px;
+  min-width: 12px;
   border-radius: 10px;
 }
 
@@ -194,10 +196,6 @@ $char-space: 1px;
 
 .blue {
   color: #3daee9;
-}
-
-.logout-icon {
-  padding-right: 5px;
 }
 
 .systray {
