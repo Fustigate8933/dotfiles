@@ -138,10 +138,17 @@ return {
 			}
 
 			vim.lsp.config.qmlls = {
-				cmd = { "qmlls" },
+				cmd = { "/usr/lib/qt6/bin/qmlls" },
 				root_markers = { ".git", "*.qmlproject" },
 				filetypes = { "qml", "qmljs" },
 				capabilities = capabilities,
+				settings = {
+					qml = {
+						importPaths = {
+							"/usr/lib/qt6/qml",
+						},
+					},
+				},
 			}
 
 			vim.lsp.enable({ "lua_ls", "pyright", "tailwindcss", "eslint", "clangd", "ruby_lsp", "ts_ls", "qmlls" })
