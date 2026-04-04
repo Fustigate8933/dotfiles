@@ -11,7 +11,7 @@ Item {
     // Material Symbols font
     FontLoader {
         id: materialFont
-        source: Qt.resolvedUrl("../DankMaterialShell/quickshell/assets/fonts/material-design-icons/variablefont/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].ttf")
+        source: Qt.resolvedUrl("../assets/fonts/material-design-icons/variablefont/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].ttf")
     }
 
     property var players: Mpris.players.values

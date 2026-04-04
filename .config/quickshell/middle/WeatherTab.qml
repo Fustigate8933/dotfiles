@@ -1,6 +1,6 @@
 import Quickshell
 import QtQuick
-import "../DankMaterialShell/quickshell/Common/suncalc.js" as SunCalc
+import "../assets/suncalc.js" as SunCalc
 import ".." as Root
 
 Item {
@@ -15,13 +15,13 @@ Item {
   // Material Symbols font
   FontLoader {
     id: materialFont
-    source: Qt.resolvedUrl("../DankMaterialShell/quickshell/assets/fonts/material-design-icons/variablefont/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].ttf")
+    source: Qt.resolvedUrl("../assets/fonts/material-design-icons/variablefont/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].ttf")
   }
 
   // NerdFont for moon phases
   FontLoader {
     id: nerdFont
-    source: Qt.resolvedUrl("../DankMaterialShell/quickshell/assets/fonts/nerd-fonts/FiraCodeNerdFont-Regular.ttf")
+    source: Qt.resolvedUrl("../assets/fonts/nerd-fonts/FiraCodeNerdFont-Regular.ttf")
   }
 
   // Weather data
