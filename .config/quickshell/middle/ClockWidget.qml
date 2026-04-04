@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import ".." as Root
 
 Item {
   id: root
@@ -12,7 +13,7 @@ Item {
     width: parent.width
     height: parent.height - 12
     radius: height / 2
-    color: Qt.rgba(1, 1, 1, 0.06) // Very subtle translucent background
+    color: Root.Colors.withAlpha(Root.Colors.timeChipBackground, Root.Colors.timeChipOpacity)
   }
 
   Row {
@@ -42,14 +43,14 @@ Item {
       }
       font.pixelSize: 15
       font.weight: Font.DemiBold
-      color: "#c0caf5"
+      color: Root.Colors.textPrimary
       anchors.verticalCenter: parent.verticalCenter
     }
 
     Text {
       text: "•"
       font.pixelSize: 12
-      color: "#565f89" // Dimmed separator
+      color: Root.Colors.textMuted
       anchors.verticalCenter: parent.verticalCenter
     }
 
@@ -63,7 +64,7 @@ Item {
       }
       font.pixelSize: 15
       font.weight: Font.DemiBold
-      color: "#c0caf5" 
+      color: Root.Colors.textPrimary
       anchors.verticalCenter: parent.verticalCenter
     }
   }

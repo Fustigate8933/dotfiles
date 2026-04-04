@@ -3,6 +3,7 @@ import Quickshell.Services.SystemTray
 import Quickshell.Widgets
 import Quickshell.Io
 import QtQuick
+import ".." as Root
 
 Item {
   id: root
@@ -47,7 +48,7 @@ Item {
     width: parent.width
     height: parent.height - 12
     radius: height / 2
-    color: Qt.rgba(1, 1, 1, 0.06)
+    color: Root.Colors.withAlpha(Root.Colors.systrayChipBackground, Root.Colors.systrayChipOpacity)
   }
 
   Row {

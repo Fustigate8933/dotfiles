@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Io
 import QtQuick
+import ".." as Root
 
 Item {
   id: root
@@ -10,9 +11,9 @@ Item {
 
   property real gpuUsage: -1
   property string gpuColor: {
-    if (gpuUsage >= 80) return "#f7768e";
-    if (gpuUsage >= 60) return "#e0af68";
-    return "#9ece6a";
+    if (gpuUsage >= 80) return Root.Colors.gpuHigh;
+    if (gpuUsage >= 60) return Root.Colors.gpuMedium;
+    return Root.Colors.gpuLow;
   }
 
   FontLoader {
@@ -51,7 +52,7 @@ Item {
     width: parent.width
     height: parent.height - 12
     radius: height / 2
-    color: Qt.rgba(1, 1, 1, 0.06)
+    color: Root.Colors.gpuWidgetBackground
   }
 
   Row {
@@ -72,7 +73,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       text: root.gpuUsage + "%"
       font.pixelSize: 12
-      color: "#c0caf5"
+      color: Root.Colors.gpuText
     }
   }
 

@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Services.Mpris
 import QtQuick
+import ".." as Root
 
 Item {
     id: root
@@ -42,14 +43,14 @@ Item {
             font.family: materialFont.name
             font.pixelSize: 64
             font.variableAxes: { "FILL": 0, "GRAD": -25, "opsz": 24, "wght": 400 }
-            color: "#3b3f52"
+            color: Root.Colors.mediaPlaceholderIcon
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
         Text {
             text: "No Active Players"
             font.pixelSize: 16
-            color: "#565f89"
+            color: Root.Colors.mediaMutedText
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
@@ -82,7 +83,7 @@ Item {
                 font.family: materialFont.name
                 font.pixelSize: 64
                 font.variableAxes: { "FILL": 0, "GRAD": -25, "opsz": 24, "wght": 400 }
-                color: "#3b3f52"
+                color: Root.Colors.mediaPlaceholderIcon
                 visible: !activePlayer || !activePlayer.trackArtUrl
             }
         }
@@ -97,7 +98,7 @@ Item {
                 text: activePlayer ? (activePlayer.trackTitle || "Unknown Track") : ""
                 font.pixelSize: 18
                 font.bold: true
-                color: "#c0caf5"
+                color: Root.Colors.mediaTitleText
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 maximumLineCount: 1
@@ -113,7 +114,7 @@ Item {
                     return parts.join(" • ");
                 }
                 font.pixelSize: 13
-                color: "#a9b1d6"
+                color: Root.Colors.mediaMetaText
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 maximumLineCount: 1
@@ -130,7 +131,7 @@ Item {
                 width: parent.width
                 height: 6
                 radius: 3
-                color: Qt.rgba(1, 1, 1, 0.08)
+                color: Root.Colors.withAlpha(Root.Colors.mediaProgressBg, Root.Colors.mediaProgressBgOpacity)
 
                 Rectangle {
                     width: {
@@ -140,7 +141,7 @@ Item {
                     }
                     height: parent.height
                     radius: 3
-                    color: "#bb9af7"
+                    color: Root.Colors.mediaProgressFill
 
                     Behavior on width { NumberAnimation { duration: 200 } }
                 }
@@ -162,13 +163,13 @@ Item {
                 Text {
                     text: activePlayer ? root.formatTime(activePlayer.position) : "0:00"
                     font.pixelSize: 10
-                    color: "#565f89"
+                    color: Root.Colors.mediaMutedText
                 }
                 Item { width: parent.width - 60; height: 1 }
                 Text {
                     text: activePlayer ? root.formatTime(activePlayer.length) : "0:00"
                     font.pixelSize: 10
-                    color: "#565f89"
+                    color: Root.Colors.mediaMutedText
                     horizontalAlignment: Text.AlignRight
                 }
             }
@@ -190,7 +191,7 @@ Item {
                     text: "skip_previous"
                     font.family: materialFont.name; font.pixelSize: 26
                     font.variableAxes: { "FILL": 1, "GRAD": -25, "opsz": 24, "wght": 400 }
-                    color: "#c0caf5"; anchors.centerIn: parent
+                    color: Root.Colors.mediaControlText; anchors.centerIn: parent
                 }
                 MouseArea {
                     id: prevArea; anchors.fill: parent; hoverEnabled: true
@@ -203,13 +204,13 @@ Item {
             Rectangle {
                 width: 56; height: 56; radius: 28
                 anchors.verticalCenter: parent.verticalCenter
-                color: "#bb9af7"
+                color: Root.Colors.mediaPlayButtonBg
 
                 Text {
                     text: activePlayer && activePlayer.playbackState === MprisPlaybackState.Playing ? "pause" : "play_arrow"
                     font.family: materialFont.name; font.pixelSize: 32
                     font.variableAxes: { "FILL": 1, "GRAD": -25, "opsz": 24, "wght": 500 }
-                    color: "#1a1b26"; anchors.centerIn: parent
+                    color: Root.Colors.mediaPlayButtonText; anchors.centerIn: parent
                 }
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
@@ -227,7 +228,7 @@ Item {
                     text: "skip_next"
                     font.family: materialFont.name; font.pixelSize: 26
                     font.variableAxes: { "FILL": 1, "GRAD": -25, "opsz": 24, "wght": 400 }
-                    color: "#c0caf5"; anchors.centerIn: parent
+                    color: Root.Colors.mediaControlText; anchors.centerIn: parent
                 }
                 MouseArea {
                     id: nextArea; anchors.fill: parent; hoverEnabled: true

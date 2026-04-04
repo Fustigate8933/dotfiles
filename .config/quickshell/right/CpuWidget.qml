@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Io
 import QtQuick
+import ".." as Root
 
 Item {
   id: root
@@ -9,9 +10,9 @@ Item {
 
   property real cpuUsage: 0
   property string cpuColor: {
-    if (cpuUsage >= 80) return "#f7768e";
-    if (cpuUsage >= 60) return "#e0af68";
-    return "#7aa2f7";
+    if (cpuUsage >= 80) return Root.Colors.cpuHigh;
+    if (cpuUsage >= 60) return Root.Colors.cpuMedium;
+    return Root.Colors.cpuLow;
   }
 
   FontLoader {
@@ -47,7 +48,7 @@ Item {
     width: parent.width
     height: parent.height - 12
     radius: height / 2
-    color: Qt.rgba(1, 1, 1, 0.06)
+    color: Root.Colors.cpuWidgetBackground
   }
 
   Row {
@@ -68,7 +69,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       text: root.cpuUsage + "%"
       font.pixelSize: 12
-      color: "#c0caf5"
+      color: Root.Colors.cpuText
     }
   }
 

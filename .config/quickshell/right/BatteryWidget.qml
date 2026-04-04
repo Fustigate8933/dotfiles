@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Services.UPower
 import QtQuick
+import ".." as Root
 
 Item {
   id: root
@@ -91,7 +92,7 @@ Item {
     width: parent.width
     height: parent.height - 12
     radius: height / 2
-    color: Qt.rgba(1, 1, 1, 0.06)
+    color: Root.Colors.batteryWidgetBackground
   }
 
   Row {
@@ -106,9 +107,9 @@ Item {
       font.pixelSize: 20
       font.variableAxes: { "FILL": 1, "GRAD": -25, "opsz": 24, "wght": 400 }
       color: {
-        if (root.isLow) return "#f7768e";
-        if (root.isCharging || root.isPluggedIn) return "#7aa2f7";
-        return "#a9b1d6";
+        if (root.isLow) return Root.Colors.batteryLow;
+        if (root.isCharging || root.isPluggedIn) return Root.Colors.batteryCharging;
+        return Root.Colors.batteryDischarging;
       }
     }
 
@@ -117,9 +118,9 @@ Item {
       text: root.batteryLevel + "%"
       font.pixelSize: 12
       color: {
-        if (root.isLow) return "#f7768e";
-        if (root.isCharging || root.isPluggedIn) return "#7aa2f7";
-        return "#c0caf5";
+        if (root.isLow) return Root.Colors.batteryLow;
+        if (root.isCharging || root.isPluggedIn) return Root.Colors.batteryCharging;
+        return Root.Colors.batteryText;
       }
     }
   }

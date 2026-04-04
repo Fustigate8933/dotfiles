@@ -11,6 +11,8 @@ Row {
 
   CpuWidget {}
   GpuWidget {}
+  SoundWidget {}
   BatteryWidget {}
+  StopwatchWidget {}
   SysTrayWidget {}
 }

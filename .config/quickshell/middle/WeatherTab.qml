@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 import "../DankMaterialShell/quickshell/Common/suncalc.js" as SunCalc
+import ".." as Root
 
 Item {
   id: root
@@ -303,7 +304,7 @@ Item {
             text: getWeatherIcon(root.weatherCode)
             font.family: materialFont.name; font.pixelSize: 48
             font.variableAxes: { "FILL": 0, "GRAD": -25, "opsz": 48, "wght": 300 }
-            color: "#bb9af7"
+            color: Root.Colors.weatherAccent
           }
 
           Column {
@@ -311,12 +312,12 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             Row {
               spacing: 2
-              Text { text: root.temp + "°"; font.pixelSize: 36; font.weight: Font.Light; color: "#c0caf5" }
-              Text { text: "C"; font.pixelSize: 13; color: Qt.rgba(0.75, 0.79, 0.96, 0.6); y: 8 }
+              Text { text: root.temp + "°"; font.pixelSize: 36; font.weight: Font.Light; color: Root.Colors.weatherTextPrimary }
+              Text { text: "C"; font.pixelSize: 13; color: Root.Colors.withAlpha(Root.Colors.weatherTextSecondary, 0.6); y: 8 }
             }
-            Text { text: root.condition; font.pixelSize: 13; color: Qt.rgba(0.75, 0.79, 0.96, 0.7) }
-            Text { text: "Feels Like " + root.feelsLike + "°"; font.pixelSize: 11; color: Qt.rgba(0.75, 0.79, 0.96, 0.45) }
-            Text { text: root.city; font.pixelSize: 11; color: Qt.rgba(0.75, 0.79, 0.96, 0.45); visible: text.length > 0 }
+            Text { text: root.condition; font.pixelSize: 13; color: Root.Colors.withAlpha(Root.Colors.weatherTextSecondary, 0.7) }
+            Text { text: "Feels Like " + root.feelsLike + "°"; font.pixelSize: 11; color: Root.Colors.withAlpha(Root.Colors.weatherTextMuted, Root.Colors.weatherTextMutedOpacity) }
+            Text { text: root.city; font.pixelSize: 11; color: Root.Colors.withAlpha(Root.Colors.weatherTextMuted, Root.Colors.weatherTextMutedOpacity); visible: text.length > 0 }
           }
         }
 
@@ -462,19 +463,19 @@ Item {
         // Cardinal directions
         Text {
           text: "E"; font.pixelSize: 11; font.bold: true
-          color: "#bb9af7"
+          color: Root.Colors.weatherAccent
           x: skyCanvas.margin + (skyCanvas.width - skyCanvas.margin * 2) * 0.15 - width / 2
           y: skyCanvas.horizonY - height / 2
         }
         Text {
           text: "S"; font.pixelSize: 11; font.bold: true
-          color: "#bb9af7"
+          color: Root.Colors.weatherAccent
           x: skyCanvas.width / 2 - width / 2
           y: skyCanvas.horizonY - height / 2
         }
         Text {
           text: "W"; font.pixelSize: 11; font.bold: true
-          color: "#bb9af7"
+          color: Root.Colors.weatherAccent
           x: skyCanvas.margin + (skyCanvas.width - skyCanvas.margin * 2) * 0.85 - width / 2
           y: skyCanvas.horizonY - height / 2
         }
@@ -485,7 +486,7 @@ Item {
           text: "light_mode"
           font.family: materialFont.name
           font.pixelSize: 20
-          color: "#e0af68"
+          color: Root.Colors.weatherAccent2
           z: 100
 
           property var currentDate: new Date()
@@ -510,7 +511,7 @@ Item {
           text: "dark_mode"
           font.family: materialFont.name
           font.pixelSize: 18
-          color: Qt.rgba(0.75, 0.79, 0.96, 0.9)
+          color: Root.Colors.withAlpha(Root.Colors.weatherTextSecondary, 0.9)
           z: 100
 
           property var currentDate: new Date()
@@ -546,8 +547,8 @@ Item {
       Rectangle {
         anchors.right: parent.right
         width: 32; height: 32; radius: 10
-        color: root.dense ? Qt.rgba(1, 1, 1, 0.04) : Qt.rgba(0.73, 0.6, 0.97, 0.15)
-        border.color: root.dense ? "transparent" : Qt.rgba(0.73, 0.6, 0.97, 0.4)
+        color: root.dense ? Root.Colors.withAlpha(Root.Colors.weatherSurface, Root.Colors.weatherSurfaceOpacity) : Root.Colors.withAlpha(Root.Colors.weatherAccent, 0.15)
+        border.color: root.dense ? "transparent" : Root.Colors.withAlpha(Root.Colors.weatherAccent, 0.4)
         border.width: root.dense ? 0 : 1
         visible: root.showHourly
 
@@ -555,7 +556,7 @@ Item {
           text: root.dense ? "grid_view" : "view_list"
           font.family: materialFont.name; font.pixelSize: 18
           anchors.centerIn: parent
-          color: root.dense ? "#565f89" : "#bb9af7"
+          color: root.dense ? Root.Colors.calendarHeaderText : Root.Colors.weatherAccent
         }
 
         MouseArea {
@@ -642,18 +643,18 @@ Item {
     property string temp: ""
     property bool isCurrent: false
     radius: 10
-    color: isCurrent ? Qt.rgba(0.73, 0.6, 0.97, 0.1) : Qt.rgba(1, 1, 1, 0.04)
-    border.color: isCurrent ? Qt.rgba(0.73, 0.6, 0.97, 0.25) : Qt.rgba(1, 1, 1, 0.04)
+    color: isCurrent ? Root.Colors.withAlpha(Root.Colors.weatherAccent, 0.1) : Root.Colors.withAlpha(Root.Colors.weatherSurface, Root.Colors.weatherSurfaceOpacity)
+    border.color: isCurrent ? Root.Colors.withAlpha(Root.Colors.weatherAccent, 0.25) : Root.Colors.withAlpha(Root.Colors.weatherBorder, Root.Colors.weatherSurfaceOpacity)
     border.width: 1
 
     Column {
       anchors.centerIn: parent; spacing: 6
-      Text { text: time; font.pixelSize: 13; font.weight: Font.DemiBold; color: isCurrent ? "#bb9af7" : "#c0caf5"; anchors.horizontalCenter: parent.horizontalCenter }
+      Text { text: time; font.pixelSize: 13; font.weight: Font.DemiBold; color: isCurrent ? Root.Colors.weatherAccent : Root.Colors.weatherTextPrimary; anchors.horizontalCenter: parent.horizontalCenter }
       Text {
         text: icon; font.family: materialFont.name; font.pixelSize: 26
-        color: Qt.rgba(0.75, 0.79, 0.96, 0.7); anchors.horizontalCenter: parent.horizontalCenter
+        color: Root.Colors.withAlpha(Root.Colors.weatherTextSecondary, 0.7); anchors.horizontalCenter: parent.horizontalCenter
       }
-      Text { text: temp; font.pixelSize: 13; color: Qt.rgba(0.75, 0.79, 0.96, 0.6); anchors.horizontalCenter: parent.horizontalCenter }
+      Text { text: temp; font.pixelSize: 13; color: Root.Colors.withAlpha(Root.Colors.weatherTextSecondary, 0.6); anchors.horizontalCenter: parent.horizontalCenter }
     }
   }
 
@@ -662,10 +663,10 @@ Item {
     property bool active: false
     signal clicked()
     width: toggleText.width + 24; height: 28; radius: 14
-    color: active ? Qt.rgba(0.73, 0.6, 0.97, 0.15) : Qt.rgba(1, 1, 1, 0.04)
-    border.color: active ? Qt.rgba(0.73, 0.6, 0.97, 0.4) : "transparent"
+    color: active ? Root.Colors.withAlpha(Root.Colors.weatherAccent, 0.15) : Root.Colors.withAlpha(Root.Colors.weatherSurface, Root.Colors.weatherSurfaceOpacity)
+    border.color: active ? Root.Colors.withAlpha(Root.Colors.weatherAccent, 0.4) : "transparent"
     border.width: active ? 1 : 0
-    Text { id: toggleText; text: label; font.pixelSize: 12; anchors.centerIn: parent; color: active ? "#bb9af7" : "#565f89" }
+    Text { id: toggleText; text: label; font.pixelSize: 12; anchors.centerIn: parent; color: active ? Root.Colors.weatherAccent : Root.Colors.calendarHeaderText }
     MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: parent.clicked() }
   }
 

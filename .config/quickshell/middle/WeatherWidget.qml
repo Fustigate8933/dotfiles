@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 import QtQuick.Layouts
+import ".." as Root
 
 Item {
   id: root
@@ -12,7 +13,7 @@ Item {
     width: parent.width
     height: parent.height - 12
     radius: height / 2
-    color: Qt.rgba(1, 1, 1, 0.06)
+    color: Root.Colors.withAlpha(Root.Colors.weatherChipBackground, Root.Colors.weatherChipOpacity)
   }
 
   Row {
@@ -56,7 +57,7 @@ Item {
     Text {
       text: weatherContent.weatherIcon
       font.pixelSize: 21 // Scaled up icon
-      color: "#c0caf5"
+      color: Root.Colors.textPrimary
       anchors.verticalCenter: parent.verticalCenter
     }
 
@@ -64,7 +65,7 @@ Item {
       text: weatherContent.weatherTemp
       font.pixelSize: 15
       font.weight: Font.DemiBold
-      color: "#c0caf5"
+      color: Root.Colors.textPrimary
       anchors.verticalCenter: parent.verticalCenter
     }
   }

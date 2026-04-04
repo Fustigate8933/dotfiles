@@ -2,12 +2,14 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Widgets
 import QtQuick
+import ".." as Root
 
 Item {
   id: root
   height: parent.height
-  width: visible ? 300 : 0
-  visible: titleText.text.length > 0
+  readonly property bool hasContent: titleText.text.length > 0
+  property int titleRightPadding: 10
+  width: 300
   clip: true
 
   // Find the focused toplevel on the current workspace
@@ -15,12 +17,15 @@ Item {
     if (!Hyprland.toplevels || !Hyprland.focusedWorkspace)
       return null;
     let toplevels = Hyprland.toplevels.values;
+    let fallback = null;
     for (let i = 0; i < toplevels.length; i++) {
       let t = toplevels[i];
-      if (t.activated && t.workspace && t.workspace.id === Hyprland.focusedWorkspace.id)
-        return t;
+      if (t.workspace && t.workspace.id === Hyprland.focusedWorkspace.id) {
+        if (fallback === null) fallback = t;
+        if (t.activated) return t;
+      }
     }
-    return null;
+    return fallback;
   }
 
   property string appName: {
@@ -55,15 +60,22 @@ Item {
     width: parent.width
     height: parent.height - 12
     radius: height / 2
-    color: Qt.rgba(1, 1, 1, 0.06)
+    color: Root.Colors.titleBackground
+    opacity: root.focusedToplevel ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: 120 } }
   }
 
   Row {
     id: contentRow
     anchors.left: parent.left
     anchors.leftMargin: 8
+    anchors.right: parent.right
+    anchors.rightMargin: 8 + root.titleRightPadding
     anchors.verticalCenter: parent.verticalCenter
     spacing: 6
+    clip: true
+    opacity: root.focusedToplevel ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: 120 } }
 
     // App icon
     IconImage {
@@ -77,7 +89,9 @@ Item {
         let wl = root.focusedToplevel.wayland;
         let cls = ipc ? (ipc.class || ipc.initialClass || "") : (wl ? (wl.appId || "") : "");
         if (cls === "") return "";
-        return Quickshell.iconPath(cls.toLowerCase(), "wayland");
+        const icon = Quickshell.iconPath(cls.toLowerCase(), true);
+        if (icon && icon.length > 0) return icon;
+        return Qt.resolvedUrl("../assets/arch_logo.png");
       }
       visible: status === Image.Ready
     }
@@ -87,7 +101,7 @@ Item {
       id: appNameText
       anchors.verticalCenter: parent.verticalCenter
       text: root.appName
-      color: "#c0caf5"
+      color: Root.Colors.titleAppText
       font.pixelSize: 12
       font.bold: true
       visible: text.length > 0
@@ -97,7 +111,7 @@ Item {
     Text {
       anchors.verticalCenter: parent.verticalCenter
       text: "•"
-      color: "#565f89"
+      color: Root.Colors.titleSeparator
       font.pixelSize: 12
       visible: appNameText.visible && titleText.text.length > 0
     }
@@ -107,7 +121,7 @@ Item {
       id: titleText
       anchors.verticalCenter: parent.verticalCenter
       text: root.windowTitle || root.appName
-      color: "#a9b1d6"
+      color: Root.Colors.titleWindowText
       font.pixelSize: 12
       elide: Text.ElideRight
       width: Math.min(implicitWidth, 250)

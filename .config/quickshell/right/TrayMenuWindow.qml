@@ -3,6 +3,7 @@ import Quickshell.Wayland
 import Quickshell.Hyprland
 import Quickshell.DBusMenu
 import QtQuick
+import ".." as Root
 
 PanelWindow {
     id: trayMenuWindow
@@ -41,11 +42,6 @@ PanelWindow {
     function popMenu() {
         if (navStack.length === 0) return;
         navStack = navStack.slice(0, navStack.length - 1);
-    }
-
-    Keys.onEscapePressed: {
-        if (navStack.length > 0) popMenu();
-        else close();
     }
 
     // Grab all input while open — fires onCleared when clicking outside (including bar)
@@ -89,15 +85,15 @@ PanelWindow {
 
     Rectangle {
         id: menuBg
-        width: 260
+        width: 300
         height: menuColumn.height + 16
 
         x: Math.min(trayMenuWindow.width - width - 10, Math.max(10, trayMenuWindow.originX - width / 2))
         y: { console.log("MENU Y:", trayMenuWindow.originY, "final:", trayMenuWindow.originY + 8); return trayMenuWindow.originY + 8; }
 
-        color: Qt.rgba(0.08, 0.08, 0.1, 0.95)
+        color: Root.Colors.withAlpha(Root.Colors.surfaceContainer, Root.Colors.popupOpacity)
         radius: 8
-        border.color: Qt.rgba(1, 1, 1, 0.1)
+        border.color: Root.Colors.withAlpha(Root.Colors.outlineVariant, Root.Colors.separatorOpacity)
         border.width: 1
 
         Behavior on height { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }

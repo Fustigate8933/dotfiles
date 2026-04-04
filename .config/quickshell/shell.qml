@@ -5,14 +5,18 @@ import QtQuick
 import "./left"
 import "./middle"
 import "./right"
+import "." as Root
 
 ShellRoot {
   PanelWindow {
+    id: topBar
     anchors.top: true
     anchors.left: true
     anchors.right: true
+    WlrLayershell.layer: WlrLayershell.Top
+    WlrLayershell.exclusiveZone: topBar.implicitHeight - 6
     implicitHeight: 45
-    color: "#1a1b26"
+    color: Root.Colors.withAlpha(Root.Colors.background, Root.Colors.panelOpacity)
 
     // Dismiss tray popup when clicking anywhere on the bar
     MouseArea {
@@ -30,6 +34,10 @@ ShellRoot {
   TrayMenuWindow {
       id: globalTrayMenu
   }
+
+    SoundPopup {
+      id: globalSoundPopup
+    }
 
   BatteryPopup {
       id: globalBatteryPopup

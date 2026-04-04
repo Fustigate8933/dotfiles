@@ -2,6 +2,7 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
+import ".." as Root
 
 PanelWindow {
     id: batteryPopup
@@ -19,8 +20,6 @@ PanelWindow {
     property real originY: 0
 
     function close() { visible = false; }
-
-    Keys.onEscapePressed: close()
 
     FontLoader {
         id: materialFont
@@ -46,9 +45,9 @@ PanelWindow {
         x: Math.min(batteryPopup.width - width - 10, Math.max(10, batteryPopup.originX - width / 2))
         y: batteryPopup.originY + 8
 
-        color: Qt.rgba(0.08, 0.08, 0.1, 0.95)
+        color: Root.Colors.withAlpha(Root.Colors.surfaceContainer, Root.Colors.popupOpacity)
         radius: 10
-        border.color: Qt.rgba(1, 1, 1, 0.1)
+        border.color: Root.Colors.withAlpha(Root.Colors.outlineVariant, Root.Colors.separatorOpacity)
         border.width: 1
 
         Behavior on height { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
@@ -137,7 +136,7 @@ PanelWindow {
                     width: (parent.width - 8) / 2
                     height: 56
                     radius: 8
-                    color: Qt.rgba(1, 1, 1, 0.04)
+                    color: Root.Colors.withAlpha(Root.Colors.surfaceContainerHigh, Root.Colors.cardOpacity)
 
                     Column {
                         anchors.centerIn: parent
@@ -162,7 +161,7 @@ PanelWindow {
                     width: (parent.width - 8) / 2
                     height: 56
                     radius: 8
-                    color: Qt.rgba(1, 1, 1, 0.04)
+                    color: Root.Colors.withAlpha(Root.Colors.surfaceContainerHigh, Root.Colors.cardOpacity)
 
                     Column {
                         anchors.centerIn: parent

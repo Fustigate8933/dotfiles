@@ -1,4 +1,5 @@
 import QtQuick
+import ".." as Root
 
 Item {
     id: root
@@ -51,7 +52,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 color: prevMA.containsMouse ? Qt.rgba(1,1,1,0.08) : "transparent"
                 Text {
-                    text: "‹"; font.pixelSize: 20; color: "#c0caf5"
+                    text: "‹"; font.pixelSize: 20; color: Root.Colors.calendarNavText
                     anchors.centerIn: parent
                 }
                 MouseArea {
@@ -68,7 +69,7 @@ Item {
                                         "July","August","September","October","November","December"];
                         return months[root.displayMonth] + " " + root.displayYear;
                     }
-                    font.pixelSize: 16; font.bold: true; color: "#c0caf5"
+                    font.pixelSize: 16; font.bold: true; color: Root.Colors.calendarNavText
                 }
             }
 
@@ -77,7 +78,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 color: nextMA.containsMouse ? Qt.rgba(1,1,1,0.08) : "transparent"
                 Text {
-                    text: "›"; font.pixelSize: 20; color: "#c0caf5"
+                    text: "›"; font.pixelSize: 20; color: Root.Colors.calendarNavText
                     anchors.centerIn: parent
                 }
                 MouseArea {
@@ -98,7 +99,7 @@ Item {
                     text: modelData
                     font.pixelSize: 11
                     font.weight: Font.DemiBold
-                    color: "#565f89"
+                    color: Root.Colors.calendarHeaderText
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
@@ -140,7 +141,20 @@ Item {
                     width: root.width / 7
                     height: 36
                     radius: 18
-                    color: isToday ? "#bb9af7" : "transparent"
+                    color: {
+                        if (isToday) return Root.Colors.calendarTodayBg;
+                        if (isCurrentMonth && dayHover.containsMouse)
+                            return Root.Colors.withAlpha(Root.Colors.calendarDayHoverBg, Root.Colors.calendarDayHoverOpacity);
+                        return "transparent";
+                    }
+
+                    MouseArea {
+                        id: dayHover
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        acceptedButtons: Qt.NoButton
+                        cursorShape: Qt.PointingHandCursor
+                    }
 
                     Text {
                         anchors.centerIn: parent
@@ -148,9 +162,9 @@ Item {
                         font.pixelSize: 13
                         font.bold: parent.isToday
                         color: {
-                            if (parent.isToday) return "#1a1b26";
-                            if (!parent.isCurrentMonth) return "#3b3f52";
-                            return "#c0caf5";
+                            if (parent.isToday) return Root.Colors.calendarTodayText;
+                            if (!parent.isCurrentMonth) return Root.Colors.calendarOtherMonthText;
+                            return Root.Colors.calendarCurrentMonthText;
                         }
                     }
                 }
@@ -167,13 +181,13 @@ Item {
                 width: todayLabel.width + 20
                 height: 28
                 radius: 14
-                color: Qt.rgba(1, 1, 1, 0.06)
+                color: Root.Colors.withAlpha(Root.Colors.calendarTodayButtonBg, Root.Colors.calendarTodayButtonOpacity)
 
                 Text {
                     id: todayLabel
                     text: "Today"
                     font.pixelSize: 12
-                    color: "#bb9af7"
+                    color: Root.Colors.calendarTodayBg
                     anchors.centerIn: parent
                 }
 

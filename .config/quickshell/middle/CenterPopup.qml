@@ -2,6 +2,7 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
+import ".." as Root
 
 PanelWindow {
     id: centerPopup
@@ -18,8 +19,6 @@ PanelWindow {
 
     function close() { visible = false; }
     function toggle() { visible = !visible; }
-
-    Keys.onEscapePressed: close()
 
     HyprlandFocusGrab {
         windows: [centerPopup]
@@ -46,9 +45,9 @@ PanelWindow {
         anchors.horizontalCenter: parent.horizontalCenter
         y: 53 // below the bar (45) + gap
 
-        color: Qt.rgba(0.08, 0.08, 0.1, 0.95)
+        color: Root.Colors.withAlpha(Root.Colors.surfaceContainer, Root.Colors.popupOpacity)
         radius: 12
-        border.color: Qt.rgba(1, 1, 1, 0.08)
+        border.color: Root.Colors.withAlpha(Root.Colors.outlineVariant, Root.Colors.separatorOpacity)
         border.width: 1
 
         Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
@@ -99,7 +98,7 @@ PanelWindow {
                                 font.family: materialFont.name
                                 font.pixelSize: 26
                                 font.variableAxes: { "FILL": centerPopup.currentTab === index ? 1 : 0, "GRAD": -25, "opsz": 24, "wght": 400 }
-                                color: centerPopup.currentTab === index ? "#bb9af7" : "#7aa2f7"
+                                color: centerPopup.currentTab === index ? Root.Colors.centerTabActiveIcon : Root.Colors.centerTabInactiveIcon
                                 anchors.horizontalCenter: parent.horizontalCenter
 
                                 Behavior on color { ColorAnimation { duration: 150 } }
@@ -108,7 +107,7 @@ PanelWindow {
                             Text {
                                 text: modelData.label
                                 font.pixelSize: 12
-                                color: centerPopup.currentTab === index ? "#c0caf5" : "#9aa5ce"
+                                color: centerPopup.currentTab === index ? Root.Colors.centerTabActiveText : Root.Colors.centerTabInactiveText
                                 anchors.horizontalCenter: parent.horizontalCenter
 
                                 Behavior on color { ColorAnimation { duration: 150 } }
@@ -122,7 +121,7 @@ PanelWindow {
                             radius: 1
                             anchors.bottom: parent.bottom
                             anchors.horizontalCenter: parent.horizontalCenter
-                            color: "#bb9af7"
+                            color: Root.Colors.centerTabAccent
                             visible: false  // Removed - color highlighting is enough
                         }
 
@@ -139,7 +138,7 @@ PanelWindow {
             Rectangle {
                 width: parent.width
                 height: 1
-                color: Qt.rgba(1, 1, 1, 0.06)
+                color: Root.Colors.withAlpha(Root.Colors.outlineVariant, Root.Colors.separatorOpacity)
             }
 
             // ── Tab Content ──────────────────────────────────────
