@@ -520,7 +520,7 @@ Item {
           visible: !!pos
           x: pos ? ((pos.h ?? 0) * (skyCanvas.width - 2 * skyCanvas.margin) + skyCanvas.margin - width / 2) : 0
           y: pos ? ((pos.v ?? 0) * -( (skyCanvas.height - 2 * skyCanvas.margin) * skyCanvas.verticalScale / 2)
-          + (skyCanvas.height - 2 * skyCanvas.margin) / 2 + skyCanvas.margin - height / 2) : 0
+          + (skyCanvas.height - 2 * skyCanvas.margin) / 2 + skyCanvas.margin - height / 2 - 18) : 0
 
           Timer {
             interval: 60000
