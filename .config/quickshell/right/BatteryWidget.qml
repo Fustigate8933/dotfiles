@@ -117,11 +117,7 @@ Item {
       anchors.verticalCenter: parent.verticalCenter
       text: root.batteryLevel + "%"
       font.pixelSize: 12
-      color: {
-        if (root.isLow) return Root.Colors.batteryLow;
-        if (root.isCharging || root.isPluggedIn) return Root.Colors.batteryCharging;
-        return Root.Colors.batteryText;
-      }
+      color: Root.Colors.batteryText
     }
   }
 
