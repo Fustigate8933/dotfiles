@@ -15,7 +15,7 @@ ShellRoot {
     anchors.right: true
     WlrLayershell.layer: WlrLayershell.Top
     WlrLayershell.exclusiveZone: topBar.implicitHeight - 6
-    implicitHeight: 45
+    implicitHeight: 50
     color: Root.Colors.withAlpha(Root.Colors.background, Root.Colors.panelOpacity)
 
     // Dismiss tray popup when clicking anywhere on the bar

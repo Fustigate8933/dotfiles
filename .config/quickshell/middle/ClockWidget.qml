@@ -41,7 +41,7 @@ Item {
         const displayH = h % 12 || 12;
         return `${displayH}:${m}:${s} ${ampm}`;
       }
-      font.pixelSize: 15
+      font.pixelSize: 16
       font.weight: Font.DemiBold
       color: Root.Colors.textPrimary
       anchors.verticalCenter: parent.verticalCenter
