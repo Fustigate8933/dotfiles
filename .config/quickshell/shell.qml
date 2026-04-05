@@ -30,20 +30,20 @@ ShellRoot {
     Middle {}
     Right {}
   }
-  
+
   TrayMenuWindow {
-      id: globalTrayMenu
+    id: globalTrayMenu
   }
 
-    SoundPopup {
-      id: globalSoundPopup
-    }
+  SoundPopup {
+    id: globalSoundPopup
+  }
 
   BatteryPopup {
-      id: globalBatteryPopup
+    id: globalBatteryPopup
   }
 
   CenterPopup {
-      id: globalCenterPopup
+    id: globalCenterPopup
   }
 }
