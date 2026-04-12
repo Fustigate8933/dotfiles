@@ -84,7 +84,7 @@ return {
 					},
 				},
 				suggestion = {
-					enabled = false, -- disable suggestions by default
+					enabled = true, -- disable suggestions by default
 					auto_trigger = false,
 					keymap = {
 						accept = "<C-j>"

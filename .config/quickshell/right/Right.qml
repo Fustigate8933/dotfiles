@@ -9,11 +9,12 @@ Row {
   anchors.rightMargin: 8
   spacing: 8
 
+  StopwatchWidget {}
   CpuWidget {}
   GpuWidget {}
   BrightnessWidget {}
-  SoundWidget {}
   BatteryWidget {}
-  StopwatchWidget {}
+  SoundWidget {}
+  MicrophoneWidget {}
   SysTrayWidget {}
 }
