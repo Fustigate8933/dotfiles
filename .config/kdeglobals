@@ -293,6 +293,9 @@ DisabledSemiTransparent=true
 DisabledValue=1
 Size=16
 
+[Sounds]
+Enable=true
+
 [Toolbar style]
 ToolButtonStyle=TextBesideIcon
 ToolButtonStyleOtherToolbars=TextBesideIcon

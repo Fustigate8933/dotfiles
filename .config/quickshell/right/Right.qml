@@ -16,5 +16,6 @@ Row {
   BatteryWidget {}
   SoundWidget {}
   MicrophoneWidget {}
+  DoNotDisturbWidget {}
   SysTrayWidget {}
 }
