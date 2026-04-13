@@ -21,3 +21,19 @@ vimopt.splitright = true
 vim.cmd [[inoremap <C-BS> <C-w>]]
 vim.keymap.set("v", "<C-c>", '"+y')
 vim.keymap.set("n", "<C-A>", "ggVG", { desc = "Select all" })
+
+
+-- remove trailing whitespaces on save
+local TrimWhiteSpaceGrp = vim.api.nvim_create_augroup("TrimWhiteSpaceGrp", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = TrimWhiteSpaceGrp,
+    pattern = "*",
+    callback = function()
+        -- Save cursor position to restore later
+        local save_cursor = vim.fn.winsaveview()
+
+        vim.cmd([[%s/\s\+$//e]])
+
+        vim.fn.winrestview(save_cursor)
+    end,
+})
