@@ -37,7 +37,7 @@ Item {
     // Get current wallpaper
     Process {
         id: getCurrentProc
-        command: ["sh", "-c", "swww query 2>/dev/null | head -1 | sed 's/.*image: //' | xargs basename 2>/dev/null"]
+        command: ["sh", "-c", "awww query 2>/dev/null | head -1 | sed 's/.*image: //' | xargs basename 2>/dev/null"]
         running: true
         stdout: SplitParser {
             onRead: data => {
@@ -185,7 +185,7 @@ Item {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            applyProc.command = ["swww", "img", root.wallpaperDir + "/" + modelData, "--transition-type", "fade", "--transition-duration", "1"];
+                            applyProc.command = ["awww", "img", root.wallpaperDir + "/" + modelData, "--transition-type", "fade", "--transition-duration", "1"];
                             applyProc.running = true;
                             root.currentWallpaper = modelData;
                         }

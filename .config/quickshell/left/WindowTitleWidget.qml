@@ -9,7 +9,9 @@ Item {
   height: parent.height
   readonly property bool hasContent: titleText.text.length > 0
   property int titleRightPadding: 10
-  width: 300
+  property int maxWidth: 300
+  readonly property int dynamicWidth: contentRow.implicitWidth + contentRow.anchors.leftMargin + contentRow.anchors.rightMargin
+  width: Math.min(maxWidth, dynamicWidth)
   clip: true
 
   // Find the focused toplevel on the current workspace
