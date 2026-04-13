@@ -47,6 +47,10 @@ QtObject {
   readonly property color soundNormal: "#f5cb5c"
   readonly property color soundMuted: error
 
+  // Do Not Distrub widget
+  readonly property color dndNormal: "#999999"
+  readonly property color dndMuted: "#E0B0FF"
+
   // Battery widget
   readonly property color batteryWidgetBackground: widgetBackground
   readonly property color batteryText: textPrimary

@@ -52,8 +52,8 @@ Item {
     refreshDelay.restart();
   }
 
-  property string dndIconName: active ? "do_not_disturb_on" : "notifications"
-  property color dndColor: active ? Root.Colors.soundMuted : Root.Colors.soundNormal
+  property string dndIconName: active ? "notifications_off" : "notifications"
+  property color dndColor: active ? Root.Colors.dndMuted : Root.Colors.dndNormal
 
   FontLoader {
     id: materialFont
