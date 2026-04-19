@@ -14,9 +14,14 @@ ShellRoot {
     anchors.left: true
     anchors.right: true
     WlrLayershell.layer: WlrLayershell.Top
-    WlrLayershell.exclusiveZone: topBar.implicitHeight - 6
+    WlrLayershell.exclusiveZone: topBar.implicitHeight
     implicitHeight: 50
-    color: Root.Colors.withAlpha(Root.Colors.background, Root.Colors.panelOpacity)
+    color: "transparent"
+
+    Rectangle {
+      anchors.fill: parent
+      color: Root.Colors.withAlpha(Root.Colors.background, Root.Colors.panelOpacity)
+    }
 
     // Dismiss tray popup when clicking anywhere on the bar
     MouseArea {

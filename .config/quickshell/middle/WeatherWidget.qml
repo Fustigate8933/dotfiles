@@ -23,6 +23,45 @@ Item {
 
     property string weatherIcon: "☁" 
     property string weatherTemp: "--°" 
+
+    function setFallbackWeather() {
+      weatherIcon = "☁";
+      weatherTemp = "-°";
+    }
+
+    function applyWeatherOutput(rawOutput) {
+      let output = (rawOutput || "").trim();
+      if (output.length === 0) {
+        setFallbackWeather();
+        return;
+      }
+
+      // wttr.in occasionally responds with its full HTML/CSS page.
+      // Never render that directly in the bar.
+      if (output.indexOf("<") !== -1 || output.indexOf("{") !== -1 || output.indexOf("}") !== -1
+          || output.indexOf(".term-fg") !== -1 || output.indexOf("color: #") !== -1) {
+        setFallbackWeather();
+        return;
+      }
+
+      output = output.replace(/\+/g, "").replace(/\s+/g, " ").trim();
+
+      const directMatch = output.match(/^(\S+)\s+(-?\d+°[CF]?)/);
+      if (directMatch) {
+        weatherIcon = directMatch[1];
+        weatherTemp = directMatch[2];
+        return;
+      }
+
+      const tempMatch = output.match(/-?\d+°[CF]?/);
+      if (tempMatch) {
+        weatherIcon = "☁";
+        weatherTemp = tempMatch[0];
+        return;
+      }
+
+      setFallbackWeather();
+    }
     
     Timer {
       interval: 1800000 // 30 minutes
@@ -34,22 +73,14 @@ Item {
         xhr.onreadystatechange = function() {
           if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
-              let output = xhr.responseText.trim().replace(/\+/g, "");
-              let parts = output.split(" ");
-              if (parts.length > 1) {
-                  parent.weatherIcon = parts[0];
-                  parent.weatherTemp = parts.slice(1).join(" ");
-              } else {
-                  parent.weatherIcon = "☁";
-                  parent.weatherTemp = output;
-              }
+              parent.applyWeatherOutput(xhr.responseText);
             } else {
-              parent.weatherIcon = "☁";
-              parent.weatherTemp = "-°";
+              parent.setFallbackWeather();
             }
           }
         }
         xhr.open("GET", "https://wttr.in/?format=%c+%t");
+        xhr.setRequestHeader("Accept", "text/plain");
         xhr.send();
       }
     }
@@ -67,6 +98,8 @@ Item {
       font.weight: Font.DemiBold
       color: Root.Colors.textPrimary
       anchors.verticalCenter: parent.verticalCenter
+      width: 56
+      elide: Text.ElideRight
     }
   }
 }

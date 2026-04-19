@@ -136,50 +136,49 @@ QtObject {
   readonly property color surfaceContainerHigh: "#24283b"
   readonly property color surfaceContainerHighest: "#2a2f44"
   readonly property color surfaceBright: "#32344a"
-  
+
   // Primary colors (main accent)
   readonly property color primary: "#e2c46d"
   readonly property color primaryContainer: "#574400"
   readonly property color textOnPrimary: "#3d2f00"
-  
+
   // Secondary colors
   readonly property color secondary: "#d5c5a1"
   readonly property color secondaryContainer: "#50462a"
-  
+
   // Tertiary colors
   readonly property color tertiary: "#adcfae"
   readonly property color tertiaryContainer: "#2f4d34"
-  
+
   // Text colors
   readonly property color textOnSurface: "#c0caf5"
   readonly property color textOnSurfaceVariant: "#a9b1d6"
   readonly property color textOnBackground: "#c0caf5"
-  
+
   // Outline
   readonly property color outline: "#565f89"
   readonly property color outlineVariant: "#414868"
-  
+
   // Error
   readonly property color error: "#ffb4ab"
   readonly property color errorContainer: "#93000a"
-  
+
   // Semantic colors for widgets
   readonly property color textPrimary: "#ffffff"
   readonly property color textSecondary: "#a9b1d6"
   readonly property color textMuted: "#e8e9f3"
-  
+
   // Status colors (softer, more harmonious)
   readonly property color success: "#9ece6a"
   readonly property color warning: "#e0af68"
   readonly property color danger: "#f7768e"
   readonly property color info: "#7aa2f7"
-  
+
   // Widget backgrounds
   readonly property color widgetBackground: "#2f2626"
   readonly property color widgetBackgroundHover: "#32344a"
-  
+
   // Overlay
   readonly property color scrim: "#000000"
   readonly property color shadow: "#000000"
 }
-
