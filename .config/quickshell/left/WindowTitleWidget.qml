@@ -63,7 +63,7 @@ Item {
     height: parent.height - 12
     radius: height / 2
     color: Root.Colors.titleBackground
-    opacity: root.focusedToplevel ? 1 : 0
+    opacity: Root.Colors.titleBackgroundOpacity
     Behavior on opacity { NumberAnimation { duration: 120 } }
   }
 
