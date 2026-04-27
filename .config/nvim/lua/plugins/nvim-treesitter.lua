@@ -11,7 +11,7 @@ return {
 					"lua", "vim", "vimdoc", "python", "javascript", "html", "markdown", "markdown_inline", "vue", "c", "cpp", "typescript", "json", "bash", "luadoc", "tsx", "vim", "yaml", "qmljs"
 				},
 				highlight = { enable = true },
-				indent = { enable = true },
+				indent = { enable = false },
 				auto_install = true,
 
 				textobjects = {
