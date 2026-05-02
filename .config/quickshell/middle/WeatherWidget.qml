@@ -19,7 +19,7 @@ Item {
   Row {
     id: weatherContent
     anchors.centerIn: parent
-    spacing: -9
+    spacing: 4
 
     property string weatherIcon: "☁" 
     property string weatherTemp: "--°" 
@@ -29,38 +29,42 @@ Item {
       weatherTemp = "-°";
     }
 
+    function iconFromWeatherCode(code) {
+      if (code === 113) return "☀";
+      if (code === 116) return "⛅";
+      if (code === 119 || code === 122 || code === 143 || code === 248 || code === 260) return "☁";
+      if ((code >= 176 && code <= 185) || (code >= 263 && code <= 284) || code === 293 || code === 296 || code === 299 || code === 302) return "🌧";
+      if (code >= 200 && code <= 232) return "⛈";
+      if (code >= 323 && code <= 395) return "❄";
+      return "☁";
+    }
+
     function applyWeatherOutput(rawOutput) {
-      let output = (rawOutput || "").trim();
-      if (output.length === 0) {
+      if (!rawOutput || rawOutput.trim().length === 0) {
         setFallbackWeather();
         return;
       }
 
-      // wttr.in occasionally responds with its full HTML/CSS page.
-      // Never render that directly in the bar.
-      if (output.indexOf("<") !== -1 || output.indexOf("{") !== -1 || output.indexOf("}") !== -1
-          || output.indexOf(".term-fg") !== -1 || output.indexOf("color: #") !== -1) {
+      try {
+        const data = JSON.parse(rawOutput);
+        const current = data.current_condition && data.current_condition[0];
+        if (!current) {
+          setFallbackWeather();
+          return;
+        }
+
+        const code = parseInt(current.weatherCode, 10);
+        const tempC = parseInt(current.temp_C, 10);
+        if (isNaN(tempC)) {
+          setFallbackWeather();
+          return;
+        }
+
+        weatherIcon = iconFromWeatherCode(code);
+        weatherTemp = tempC + "°C";
+      } catch (_) {
         setFallbackWeather();
-        return;
       }
-
-      output = output.replace(/\+/g, "").replace(/\s+/g, " ").trim();
-
-      const directMatch = output.match(/^(\S+)\s+(-?\d+°[CF]?)/);
-      if (directMatch) {
-        weatherIcon = directMatch[1];
-        weatherTemp = directMatch[2];
-        return;
-      }
-
-      const tempMatch = output.match(/-?\d+°[CF]?/);
-      if (tempMatch) {
-        weatherIcon = "☁";
-        weatherTemp = tempMatch[0];
-        return;
-      }
-
-      setFallbackWeather();
     }
     
     Timer {
@@ -79,8 +83,7 @@ Item {
             }
           }
         }
-        xhr.open("GET", "https://wttr.in/?format=%c+%t");
-        xhr.setRequestHeader("Accept", "text/plain");
+        xhr.open("GET", "https://wttr.in/?format=j1");
         xhr.send();
       }
     }
@@ -98,8 +101,6 @@ Item {
       font.weight: Font.DemiBold
       color: Root.Colors.textPrimary
       anchors.verticalCenter: parent.verticalCenter
-      width: 56
-      elide: Text.ElideRight
     }
   }
 }
