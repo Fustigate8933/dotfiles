@@ -34,6 +34,13 @@ QtObject {
   readonly property color cpuMedium: warning
   readonly property color cpuHigh: error
 
+  // RAM widget
+  readonly property color ramWidgetBackground: widgetBackground
+  readonly property color ramText: textPrimary
+  readonly property color ramLow: info
+  readonly property color ramMedium: warning
+  readonly property color ramHigh: error
+
   // GPU widget
   readonly property color gpuWidgetBackground: widgetBackground
   readonly property color gpuText: textPrimary

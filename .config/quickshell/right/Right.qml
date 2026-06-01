@@ -10,6 +10,7 @@ Row {
   spacing: 8
 
   StopwatchWidget {}
+  RamWidget {}
   CpuWidget {}
   GpuWidget {}
   BrightnessWidget {}

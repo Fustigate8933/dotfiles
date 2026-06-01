@@ -6,6 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export EDITOR="nvim"
 export fpath=($HOME/.zsh-completions $fpath)
 export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
+export PATH=$PATH:$HOME/go/bin
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME

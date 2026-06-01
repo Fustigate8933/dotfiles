@@ -3,6 +3,7 @@ local vimopt = vim.opt
 vim.g.mapleader = " " -- global leader key
 vim.g.maplocalleader = "\\"
 
+vimopt.expandtab = true
 vimopt.tabstop = 4
 vimopt.softtabstop = 4
 vimopt.shiftwidth = 4
