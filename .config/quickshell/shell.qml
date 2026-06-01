@@ -8,8 +8,18 @@ import "./right"
 import "." as Root
 
 ShellRoot {
+  readonly property var preferredScreen: {
+    for (let i = 0; i < Quickshell.screens.length; i++) {
+      if (Quickshell.screens[i].name === "HDMI-A-3")
+        return Quickshell.screens[i];
+    }
+
+    return Quickshell.screens[0] ?? null;
+  }
+
   PanelWindow {
     id: topBar
+    screen: preferredScreen
     anchors.top: true
     anchors.left: true
     anchors.right: true
@@ -38,17 +48,21 @@ ShellRoot {
 
   TrayMenuWindow {
     id: globalTrayMenu
+    screen: preferredScreen
   }
 
   SoundPopup {
     id: globalSoundPopup
+    screen: preferredScreen
   }
 
   BatteryPopup {
     id: globalBatteryPopup
+    screen: preferredScreen
   }
 
   CenterPopup {
     id: globalCenterPopup
+    screen: preferredScreen
   }
 }

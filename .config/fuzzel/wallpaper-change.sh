@@ -10,8 +10,8 @@ if [ -z "$selected" ]; then
 fi
 
 echo "$selected"
-swww img "/home/fustigate/Pictures/$selected" --transition-fps 30 --transition-type any --transition-duration 3
+awww img "/home/fustigate/Pictures/$selected" --transition-fps 30 --transition-type any --transition-duration 3
 
-sed -i "s|^swww img .*|swww img \"/home/fustigate/Pictures/$selected\" --transition-fps 30 --transition-type any --transition-duration 3|" ~/.startup-wallpaper.sh  # changes wallpaper for next boot
+printf 'awww img "%s" --transition-fps 30 --transition-type any --transition-duration 3\n' "/home/fustigate/Pictures/$selected" > ~/.startup-wallpaper.sh  # changes wallpaper for next boot
 
 sed -i "s|^image=.*|image=/home/fustigate/Pictures/$selected|" ~/.config/swaylock/config # changes lockscreen wallpaper

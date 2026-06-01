@@ -161,7 +161,7 @@ Item {
       } else {
         const gp = mapToGlobal(width / 2, height);
         globalSoundPopup.soundWidget = root;
-        globalSoundPopup.originX = gp.x;
+        globalSoundPopup.originX = gp.x - globalSoundPopup.screen.x;
         globalSoundPopup.originY = 45;
         globalSoundPopup.visible = true;
       }

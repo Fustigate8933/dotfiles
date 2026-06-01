@@ -130,7 +130,7 @@ Item {
       } else {
         const gp = mapToGlobal(width / 2, height);
         globalBatteryPopup.batteryWidget = root;
-        globalBatteryPopup.originX = gp.x;
+        globalBatteryPopup.originX = gp.x - globalBatteryPopup.screen.x;
         globalBatteryPopup.originY = 45;
         globalBatteryPopup.visible = true;
       }

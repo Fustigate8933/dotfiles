@@ -96,7 +96,7 @@ Item {
                  if (trayItem && (trayItem.hasMenu || trayItem.menu)) {
                      const itemCenterGp = trayMouseArea.mapToGlobal(trayMouseArea.width / 2, trayMouseArea.height);
                      globalTrayMenu.activeTrayItem = trayItem;
-                     globalTrayMenu.originX = itemCenterGp.x;
+                     globalTrayMenu.originX = itemCenterGp.x - globalTrayMenu.screen.x;
                      globalTrayMenu.originY = 45;
                      globalTrayMenu.visible = true;
                  } else {

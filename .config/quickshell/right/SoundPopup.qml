@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
@@ -21,6 +22,11 @@ PanelWindow {
 
     function close() { visible = false; }
 
+    function openPavucontrol() {
+        pavucontrolProcess.running = true;
+        close();
+    }
+
     FontLoader {
         id: materialFont
         source: Qt.resolvedUrl("../assets/fonts/material-design-icons/variablefont/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].ttf")
@@ -30,6 +36,11 @@ PanelWindow {
         windows: [soundPopup]
         active: soundPopup.visible
         onCleared: soundPopup.close()
+    }
+
+    Process {
+        id: pavucontrolProcess
+        command: ["sh", "-c", "pavucontrol >/dev/null 2>&1 &"]
     }
 
     MouseArea {
@@ -60,25 +71,61 @@ PanelWindow {
             anchors.margins: 16
             spacing: 12
 
-            Row {
+            Item {
                 width: parent.width
-                spacing: 8
+                height: 32
 
-                Text {
-                    text: soundPopup.soundWidget ? soundPopup.soundWidget.soundIconName : "volume_off"
-                    font.family: materialFont.name
-                    font.pixelSize: 26
-                    font.variableAxes: { "FILL": 1, "GRAD": -25, "opsz": 24, "wght": 400 }
-                    color: soundPopup.soundWidget && soundPopup.soundWidget.muted ? Root.Colors.error : Root.Colors.info
+                Row {
+                    anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
+                    spacing: 8
+
+                    Text {
+                        text: soundPopup.soundWidget ? soundPopup.soundWidget.soundIconName : "volume_off"
+                        font.family: materialFont.name
+                        font.pixelSize: 26
+                        font.variableAxes: { "FILL": 1, "GRAD": -25, "opsz": 24, "wght": 400 }
+                        color: soundPopup.soundWidget && soundPopup.soundWidget.muted ? Root.Colors.error : Root.Colors.info
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Text {
+                        text: soundPopup.soundWidget ? (soundPopup.soundWidget.volume + "%") : "--"
+                        font.pixelSize: 20
+                        font.bold: true
+                        color: Root.Colors.textPrimary
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
                 }
 
-                Text {
-                    text: soundPopup.soundWidget ? (soundPopup.soundWidget.volume + "%") : "--"
-                    font.pixelSize: 20
-                    font.bold: true
-                    color: Root.Colors.textPrimary
+                Rectangle {
+                    width: 30
+                    height: 30
+                    radius: 8
+                    anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
+                    color: pavucontrolMouse.containsMouse
+                        ? Root.Colors.withAlpha(Root.Colors.surfaceContainerHigh, 0.9)
+                        : Root.Colors.withAlpha(Root.Colors.surfaceContainerHigh, Root.Colors.cardOpacity)
+                    border.color: Root.Colors.withAlpha(Root.Colors.outlineVariant, Root.Colors.separatorOpacity)
+                    border.width: 1
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "tune"
+                        font.family: materialFont.name
+                        font.pixelSize: 19
+                        font.variableAxes: { "FILL": 0, "GRAD": -25, "opsz": 24, "wght": 450 }
+                        color: Root.Colors.textPrimary
+                    }
+
+                    MouseArea {
+                        id: pavucontrolMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: soundPopup.openPavucontrol()
+                    }
                 }
             }
 
