@@ -6,7 +6,7 @@ return {
 	{
 		"williamboman/mason-lspconfig.nvim",
 		opts = {
-			ensure_installed = { "lua_ls", "pyright", "ts_ls", "tailwindcss", "vue_ls", "eslint", "ruby_lsp", "qmlls" },
+			ensure_installed = { "lua_ls", "pyright", "ts_ls", "tailwindcss", "vue_ls", "eslint", "ruby_lsp", "qmlls", "jdtls" },
 		},
 	},
 	{
@@ -224,5 +224,49 @@ return {
 			},
 			{ "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>" },
 		},
+	},
+	{
+		"mfussenegger/nvim-jdtls",
+		ft = "java",
+		config = function()
+			local root_markers = { "gradlew", "mvnw", "pom.xml", "build.gradle", "build.gradle.kts", ".git" }
+			local root_dir = require("jdtls.setup").find_root(root_markers)
+
+			if not root_dir then
+				return
+			end
+
+			local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
+			local workspace_dir = vim.fn.stdpath("data") .. "/jdtls-workspace/" .. project_name
+			local mason_dir = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
+			local launcher = vim.fn.glob(mason_dir .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+
+			if launcher == "" then
+				vim.notify("jdtls launcher not found. Run :MasonInstall jdtls", vim.log.levels.WARN)
+				return
+			end
+
+			require("jdtls").start_or_attach({
+				cmd = {
+					"java",
+					"-Declipse.application=org.eclipse.jdt.ls.core.id1",
+					"-Dosgi.bundles.defaultStartLevel=4",
+					"-Declipse.product=org.eclipse.jdt.ls.core.product",
+					"-Dlog.protocol=true",
+					"-Dlog.level=ALL",
+					"-Xms1g",
+					"--add-modules=ALL-SYSTEM",
+					"--add-opens", "java.base/java.util=ALL-UNNAMED",
+					"--add-opens", "java.base/java.lang=ALL-UNNAMED",
+					"-jar", launcher,
+					"-configuration", mason_dir .. "/config_linux",
+					"-data", workspace_dir,
+				},
+				root_dir = root_dir,
+				settings = {
+					java = {},
+				},
+			})
+		end,
 	},
 }

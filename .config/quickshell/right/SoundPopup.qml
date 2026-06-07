@@ -1,5 +1,4 @@
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
@@ -22,8 +21,28 @@ PanelWindow {
 
     function close() { visible = false; }
 
+    function hasPavucontrolWindow() {
+        if (!Hyprland.toplevels)
+            return false;
+
+        Hyprland.refreshToplevels();
+        const windows = Hyprland.toplevels.values;
+        for (let i = 0; i < windows.length; i++) {
+            const ipc = windows[i].lastIpcObject;
+            const cls = ipc ? (ipc.class || ipc.initialClass || "") : "";
+            if (cls === "org.pulseaudio.pavucontrol")
+                return true;
+        }
+
+        return false;
+    }
+
     function openPavucontrol() {
-        pavucontrolProcess.running = true;
+        if (hasPavucontrolWindow()) {
+            Hyprland.dispatch('hl.dsp.focus({ window = "class:org.pulseaudio.pavucontrol" })');
+        } else {
+            Hyprland.dispatch('hl.dsp.exec_cmd("pavucontrol")');
+        }
         close();
     }
 
@@ -36,11 +55,6 @@ PanelWindow {
         windows: [soundPopup]
         active: soundPopup.visible
         onCleared: soundPopup.close()
-    }
-
-    Process {
-        id: pavucontrolProcess
-        command: ["sh", "-c", "pavucontrol >/dev/null 2>&1 &"]
     }
 
     MouseArea {

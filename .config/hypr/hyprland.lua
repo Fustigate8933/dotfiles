@@ -16,13 +16,19 @@ hl.monitor({
     output = "HDMI-A-3",
     mode = "preferred",
     position = "auto-left",
-    scale = 0.6,
+    scale = 1,
 })
 
-for i = 1, 10 do
+for i = 1, 4 do
     hl.workspace_rule({
         workspace = tostring(i),
         monitor = "HDMI-A-3",
+    })
+end
+for i = 5, 8 do
+    hl.workspace_rule({
+        workspace = tostring(i),
+        monitor = "eDP-1",
     })
 end
 
@@ -114,7 +120,7 @@ hl.config({
 
     general = {
         gaps_in = 4,
-        gaps_out = { 0, 7, 7, 7 },
+        gaps_out = { top = 0, right = 7, bottom = 7, left = 7 },
         border_size = 3,
         layout = "dwindle",
     },
@@ -202,7 +208,7 @@ local window_rules = {
     {
         name = "windowrule-2",
         float = true,
-        match = { class = "^(pavucontrol)$" },
+        match = { class = "^(org.pulseaudio.pavucontrol)$" },
     },
     {
         name = "windowrule-3",
@@ -412,8 +418,8 @@ hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("~/.config/eww/scripts/change_vo
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("pactl -- set-sink-volume 0 0%"), { locked = true, repeating = true })
 -- hl.bind("CTRL + SHIFT + W", hl.dsp.exec_cmd("bottles-cli run -b Whale -e /home/fustigate/Desktop/Whale.exe"))
 hl.bind("CTRL + SHIFT + W", hl.dsp.exec_cmd("wine /home/fustigate/Desktop/Whale.exe"))
-hl.bind("XF86TouchpadToggle", hl.dsp.exec_cmd("~/.toggle-touchpad.sh"))
-hl.bind("Print", hl.dsp.exec_cmd("~/.toggle-touchpad.sh"))
+hl.bind("XF86TouchpadToggle", hl.dsp.exec_cmd("/home/fustigate/.toggle-touchpad.sh"))
+hl.bind("Print", hl.dsp.exec_cmd("/home/fustigate/.toggle-touchpad.sh"))
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })

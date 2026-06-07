@@ -25,6 +25,10 @@ Item {
   // Find the current active index (0 to 8)
   property int activeIndex: Math.max(0, (Hyprland.focusedWorkspace?.id || 1) - 1)
 
+  function switchToWorkspace(wsId) {
+    Hyprland.dispatch("hl.dsp.focus({ workspace = " + wsId + " })");
+  }
+
   function workspaceKanji(num) {
     const kanji = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
     return kanji[num] || String(num);
@@ -204,7 +208,7 @@ Item {
 
         MouseArea {
           anchors.fill: parent
-          onClicked: Hyprland.dispatch("workspace " + wsId)
+          onClicked: root.switchToWorkspace(wsId)
         }
       }
     }
