@@ -8,6 +8,9 @@ export fpath=($HOME/.zsh-completions $fpath)
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
 export PATH=$PATH:$HOME/go/bin
+
+export PI_SKIP_VERSION_CHECK=1
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -144,6 +147,5 @@ alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 chmac() {~/.change_mac.sh "$1"}
 makeipynb() {cp /mnt/ianch-Secondary/Programming/template.ipynb "$1"}
 runcpp() {g++ -fmodules -Wall -Wextra -pedantic -std=c++20 -g "$1" -o "output" && ./output}
-gpp20() {g++ -std=c++20 -fmodules-ts $argv}
-gpp20h() {g++ -std=c++20 -fmodules-ts -c -x c++-system-header $argv}
-gpp20run() {g++ -std=c++20 -fmodules-ts "$1" -o "out" && "./out"}
+gpph() {g++ -std=c++20 -fmodules-ts -c -x c++-system-header $argv}
+gpprun() {g++ -std=c++20 -fmodules-ts "$1" -o "out" && "./out"}

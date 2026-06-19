@@ -1,4 +1,7 @@
 vim.g.localleader = "\\"
+
+-- Treesitter indent is unreliable for C++; use cindent instead
+vim.bo.indentexpr = ""
 -- vim.keymap.set("n", "<localleader>rc", ":!gcc -o %:r % && %:r<CR>", {desc="execute c code"})
 
 local function run_and_display_c()

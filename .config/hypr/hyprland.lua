@@ -16,13 +16,13 @@ hl.monitor({
     output = "HDMI-A-3",
     mode = "preferred",
     position = "auto-left",
-    scale = 1,
+    scale = 0.67,
 })
 
 for i = 1, 4 do
     hl.workspace_rule({
         workspace = tostring(i),
-        monitor = "HDMI-A-3",
+        monitor = "HDMI-A-3, eDP-1",
     })
 end
 for i = 5, 8 do
@@ -34,7 +34,7 @@ end
 
 hl.workspace_rule({
     workspace = "name:wechat",
-    monitor = "HDMI-A-3",
+    monitor = "HDMI-A-3, eDP-1",
 })
 
 
