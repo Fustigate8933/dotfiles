@@ -73,5 +73,28 @@ Item {
     }
   }
 
+  MouseArea {
+    anchors.fill: parent
+    hoverEnabled: true
+
+    Rectangle {
+      visible: parent.containsMouse
+      anchors.centerIn: parent
+      width: parent.width
+      height: parent.height - 12
+      radius: height / 2
+      color: "#3a3a3a"
+      z: 10
+
+      Text {
+        anchors.centerIn: parent
+        text: "CPU"
+        color: "#ffffff"
+        font.pixelSize: 12
+        font.bold: true
+      }
+    }
+  }
+
   Behavior on width { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
 }

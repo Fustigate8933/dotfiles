@@ -21,12 +21,11 @@ Item {
     source: Qt.resolvedUrl("../assets/fonts/material-design-icons/variablefont/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].ttf")
   }
 
-  // Try nvidia-smi first, fall back to radeontop or intel_gpu_top
+  // Persistent nvidia-smi process — single NVML session, no repeated lock acquisition
   Process {
     id: gpuProcess
     running: true
-    // Check for nvidia GPU
-    command: ["sh", "-c", "if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null | head -1; else echo '-1'; fi"]
+    command: ["sh", "-c", "if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits -l 2 2>/dev/null; else echo '-1'; sleep infinity; fi"]
     
     stdout: SplitParser {
       onRead: data => {
@@ -38,13 +37,6 @@ Item {
         }
       }
     }
-  }
-
-  Timer {
-    interval: 2000
-    running: true
-    repeat: true
-    onTriggered: gpuProcess.running = true
   }
 
   Rectangle {
@@ -74,6 +66,29 @@ Item {
       text: root.gpuUsage + "%"
       font.pixelSize: 12
       color: Root.Colors.gpuText
+    }
+  }
+
+  MouseArea {
+    anchors.fill: parent
+    hoverEnabled: true
+
+    Rectangle {
+      visible: parent.containsMouse
+      anchors.centerIn: parent
+      width: parent.width
+      height: parent.height - 12
+      radius: height / 2
+      color: "#3a3a3a"
+      z: 10
+
+      Text {
+        anchors.centerIn: parent
+        text: "GPU"
+        color: "#ffffff"
+        font.pixelSize: 12
+        font.bold: true
+      }
     }
   }
 

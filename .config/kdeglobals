@@ -178,6 +178,7 @@ BrowserApplication=userapp-Floorp-AOFLH2.desktop
 ColorSchemeHash=98139d0bac64c4e9f97721675584832c7c7a0bf0
 TerminalApplication=kitty
 TerminalService=kitty.desktop
+UseSystemBell=true
 XftHintStyle=hintslight
 XftSubPixel=rgb
 desktopFont=Droid Sans,12,-1,5,50,0,0,0,0,0

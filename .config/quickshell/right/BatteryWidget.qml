@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.UPower
 import QtQuick
 import ".." as Root
@@ -21,6 +22,23 @@ Item {
   property bool isCharging: batteries.some(b => b.state === UPowerDeviceState.Charging)
   property bool isPluggedIn: !UPower.onBattery
   property bool isLow: batteryLevel <= 20 && !isCharging
+  property bool isWarning: batteryLevel <= 40 && !isCharging && !isPluggedIn
+  property bool _warningNotified: false
+
+  onIsWarningChanged: {
+    if (isWarning && !_warningNotified) {
+      _warningNotified = true;
+      batteryNotify.running = true;
+    } else if (!isWarning) {
+      _warningNotified = false;
+    }
+  }
+
+  Process {
+    id: batteryNotify
+    command: ["notify-send", "-u", "critical", "Battery Low", "Battery is at " + root.batteryLevel + "%"]
+    running: false
+  }
 
   property string batteryIconName: {
     if (isCharging || isPluggedIn) {

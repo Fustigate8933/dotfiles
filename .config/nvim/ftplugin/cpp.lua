@@ -2,6 +2,8 @@ vim.g.localleader = "\\"
 
 -- Treesitter indent is unreliable for C++; use cindent instead
 vim.bo.indentexpr = ""
+-- (0,W4 = indent one shiftwidth when open paren is at end of line
+vim.bo.cinoptions = "(0,W4"
 -- vim.keymap.set("n", "<localleader>rc", ":!gcc -o %:r % && %:r<CR>", {desc="execute c code"})
 
 local function run_and_display_c()

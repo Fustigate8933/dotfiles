@@ -11,13 +11,21 @@ return {
 			require("nvim-treesitter").install({
 				"lua", "vim", "vimdoc", "python", "javascript", "html", "markdown",
 				"markdown_inline", "vue", "c", "cpp", "typescript", "json", "bash",
-				"luadoc", "tsx", "yaml", "qmljs", "java"
+				"luadoc", "tsx", "yaml", "qmljs", "java", "cmake"
 			})
 
 			-- Enable treesitter highlighting for all supported filetypes
 			vim.api.nvim_create_autocmd("FileType", {
 				callback = function(args)
 					pcall(vim.treesitter.start, args.buf)
+				end,
+			})
+
+			-- Enable treesitter-based indentation (replaces smartindent/cindent paren alignment)
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "python", "lua", "javascript", "typescript", "html", "vue", "json", "bash", "java", "tsx", "yaml" },
+				callback = function()
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 				end,
 			})
 		end,

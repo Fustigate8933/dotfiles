@@ -16,7 +16,7 @@ hl.monitor({
     output = "HDMI-A-3",
     mode = "preferred",
     position = "auto-left",
-    scale = 0.67,
+    scale = 1,
 })
 
 for i = 1, 4 do
@@ -66,7 +66,7 @@ hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
 -------------------
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("hyprlock")
+    -- hl.exec_cmd("hyprlock")
     hl.exec_cmd("hyprctl setcursor breeze_cursors 24")
     -- hl.exec_cmd("solaar -w \"hide\"")
     hl.exec_cmd("wl-clipboard-history -t")
@@ -431,10 +431,10 @@ hl.bind("ALT + L", hl.dsp.window.move({ direction = "right" }))
 hl.bind("ALT + K", hl.dsp.window.move({ direction = "up" }))
 hl.bind("ALT + J", hl.dsp.window.move({ direction = "down" }))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/fuzzel/wallpaper-change.sh"))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.resize({ x = 20, y = 0 }), { repeating = true })
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.resize({ x = -20, y = 0 }), { repeating = true })
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.resize({ x = 0, y = -20 }), { repeating = true })
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.resize({ x = 0, y = 20 }), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.resize({ x = 20, y = 0, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.resize({ x = -20, y = 0, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.resize({ x = 0, y = -20, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.resize({ x = 0, y = 20, relative = true }), { repeating = true })
 hl.bind("CTRL + SHIFT + K", hl.dsp.exec_cmd("xdotool windowunmap $(xwininfo -root -children | grep wechat.exe | grep 570x1014 | head -n 1 | awk '{printf \"%s \", $1}')"))
 -- hl.bind("CTRL + SHIFT + L", hl.dsp.exec_cmd("~/.togglex2cameravbox.sh"))
 hl.bind("CTRL + SHIFT + L", hl.dsp.exec_cmd("echo 0 | sudo tee /sys/bus/usb/devices/1-8/bConfigurationValue"))

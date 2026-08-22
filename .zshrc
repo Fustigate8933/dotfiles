@@ -146,6 +146,7 @@ alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 # alias chmac="(){~/.change_mac.sh $1;}"
 chmac() {~/.change_mac.sh "$1"}
 makeipynb() {cp /mnt/ianch-Secondary/Programming/template.ipynb "$1"}
+makeenvrc() {cp /mnt/ianch-Secondary/Programming/.envrc "$1" && direnv allow}
 runcpp() {g++ -fmodules -Wall -Wextra -pedantic -std=c++20 -g "$1" -o "output" && ./output}
 gpph() {g++ -std=c++20 -fmodules-ts -c -x c++-system-header $argv}
 gpprun() {g++ -std=c++20 -fmodules-ts "$1" -o "out" && "./out"}
