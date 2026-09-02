@@ -150,3 +150,8 @@ makeenvrc() {cp /mnt/ianch-Secondary/Programming/.envrc "$1" && direnv allow}
 runcpp() {g++ -fmodules -Wall -Wextra -pedantic -std=c++20 -g "$1" -o "output" && ./output}
 gpph() {g++ -std=c++20 -fmodules-ts -c -x c++-system-header $argv}
 gpprun() {g++ -std=c++20 -fmodules-ts "$1" -o "out" && "./out"}
+register-kernel() {
+    uv pip install ipykernel
+    local name="${1:-$(basename "$VIRTUAL_ENV")}"
+    python -m ipykernel install --user --name "$name" --display-name "$name"
+}

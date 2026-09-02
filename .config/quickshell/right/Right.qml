@@ -18,5 +18,6 @@ Row {
   SoundWidget {}
   MicrophoneWidget {}
   DoNotDisturbWidget {}
+  PowerWidget {}
   SysTrayWidget {}
 }

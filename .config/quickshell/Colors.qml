@@ -185,6 +185,14 @@ QtObject {
   readonly property color widgetBackground: "#2f2626"
   readonly property color widgetBackgroundHover: "#32344a"
 
+  // Power widget
+  readonly property color powerWidgetBackground: widgetBackground
+  readonly property color powerIconColor: "#999999"
+  readonly property color powerLockColor: info
+  readonly property color powerLogoutColor: warning
+  readonly property color powerRebootColor: "#f28f3b"
+  readonly property color powerShutdownColor: danger
+
   // Overlay
   readonly property color scrim: "#000000"
   readonly property color shadow: "#000000"

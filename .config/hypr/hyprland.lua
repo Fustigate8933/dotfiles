@@ -406,7 +406,6 @@ hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("kitty -e nvim ~/.config/hypr/hyprlan
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 -- hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kate --startanon"))
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kitty -e nvim"))
-hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("youtube-music"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("gnome-system-monitor"))
 
 hl.bind("ALT + F11", hl.dsp.window.fullscreen())

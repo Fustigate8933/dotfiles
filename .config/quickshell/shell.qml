@@ -61,6 +61,11 @@ ShellRoot {
     screen: preferredScreen
   }
 
+  PowerPopup {
+    id: globalPowerPopup
+    screen: preferredScreen
+  }
+
   CenterPopup {
     id: globalCenterPopup
     screen: preferredScreen
