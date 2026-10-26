@@ -206,6 +206,17 @@ PanelWindow {
                     Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
                 }
             }
+
+            // ── Power profile toggle ───────────────────────────────
+            Text {
+                text: "Power Profile"
+                font.pixelSize: 11
+                color: "#7aa2f7"
+            }
+
+            PowerProfileControl {
+                width: parent.width
+            }
         }
     }
 }

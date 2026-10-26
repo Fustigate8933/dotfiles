@@ -295,7 +295,7 @@ DisabledValue=1
 Size=16
 
 [Sounds]
-Enable=true
+Enable=false
 
 [Toolbar style]
 ToolButtonStyle=TextBesideIcon

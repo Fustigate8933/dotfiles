@@ -11,8 +11,7 @@ Row {
       anchors.fill: parent
       cursorShape: Qt.PointingHandCursor
       onClicked: {
-        globalCenterPopup.currentTab = 0; // Calendar
-        globalCenterPopup.toggle();
+        globalCenterPopup.toggle(); // reopen on last-viewed tab
       }
     }
   }
@@ -22,8 +21,7 @@ Row {
       anchors.fill: parent
       cursorShape: Qt.PointingHandCursor
       onClicked: {
-        globalCenterPopup.currentTab = 3; // Weather
-        globalCenterPopup.toggle();
+        globalCenterPopup.toggle(); // reopen on last-viewed tab
       }
     }
   }

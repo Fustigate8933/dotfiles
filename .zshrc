@@ -9,6 +9,8 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
 export PATH=$PATH:$HOME/go/bin
 
+export KIRO_PROFILE_ARN='arn:aws:codewhisperer:us-east-1:638616132270:profile/AAAACCCCXXXX'
+
 export PI_SKIP_VERSION_CHECK=1
 
 # Set name of the theme to load --- if set to "random", it will
