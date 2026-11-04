@@ -185,8 +185,16 @@ Item {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            applyProc.command = ["awww", "img", root.wallpaperDir + "/" + modelData, "--transition-type", "fade", "--transition-duration", "1"];
+                            let fullPath = root.wallpaperDir + "/" + modelData;
+                            applyProc.command = ["awww", "img", fullPath, "--transition-type", "fade", "--transition-duration", "1"];
                             applyProc.running = true;
+                            // Persist choice so the next Hyprland startup uses the same wallpaper.
+                            // Mirrors ~/.config/fuzzel/wallpaper-change.sh, which regenerates
+                            // ~/.startup-wallpaper.sh (run via exec-once in hyprland.conf).
+                            persistProc.command = ["sh", "-c",
+                                "printf 'awww img \"%s\" --transition-fps 30 --transition-type any --transition-duration 3\\n' \"$1\" > \"$HOME/.startup-wallpaper.sh\"",
+                                "sh", fullPath];
+                            persistProc.running = true;
                             root.currentWallpaper = modelData;
                         }
                     }
@@ -197,6 +205,13 @@ Item {
 
     Process {
         id: applyProc
+        command: []
+    }
+
+    // Writes the chosen wallpaper into ~/.startup-wallpaper.sh so the next
+    // Hyprland startup (exec-once in hyprland.conf) restores the same one.
+    Process {
+        id: persistProc
         command: []
     }
 }
