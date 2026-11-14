@@ -15,8 +15,7 @@ Item {
     }
 
     function firstDayOfWeek(month, year) {
-        let d = new Date(year, month, 1).getDay();
-        return d === 0 ? 6 : d - 1; // Monday = 0
+        return new Date(year, month, 1).getDay(); // Sunday = 0
     }
 
     function prevMonth() {
@@ -93,7 +92,7 @@ Item {
             width: parent.width
             height: 28
             Repeater {
-                model: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+                model: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
                 Text {
                     width: root.width / 7
                     text: modelData

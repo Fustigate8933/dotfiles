@@ -410,7 +410,7 @@ hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kitty -e nvim"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("gnome-system-monitor"))
 
-hl.bind("CTRL + grave", hl.dsp.window.fullscreen())
+hl.bind("ALT + grave", hl.dsp.window.fullscreen())
 hl.bind("ALT + F11", hl.dsp.window.fullscreen())
 hl.bind("SUPER + V", hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 2%+"))
